@@ -8,6 +8,7 @@ using ViewModels;
 using Services;
 using System.Web.Security;
 using Models;
+using System.Diagnostics;
 
 namespace UniRegistration.Controllers
 {
@@ -101,16 +102,43 @@ namespace UniRegistration.Controllers
         [HttpPost]
         public JsonResult Login(User user)
         {
-            try
+
+
+            User loggedUser = _service.Login(user);
+            string url = null;
+            if(loggedUser != null)
             {
-                _service.Login(user);
+
+                this.Session["Role"] = loggedUser.Role;
+                this.Session["Email"] = loggedUser.Email;
+                switch (loggedUser.Role)
+                {
+                    case Role.Admin: url = "/Admin"; break;
+                    case Role.User: url = "/Home"; break;
+
+                }
+            }
+           
+            return Json(new {url = url });
+            
+            
+            
+            
+            /*            try
+            {
+               User loggedUser = _service.Login(user);
+
+                this.Session["Role"] = loggedUser.Role;
+                this.Session["Email"] = loggedUser.Email;
+                
             }
             catch(Exception e)
             {
                 return Json(new { error = e.Message });
             }
 
-                return Json(new {em = user.Email, pas=user.Password });
+                return Json(new {url: Url.Action("Index", "Employee")) });*/
+
         }
 
         public ActionResult Login()

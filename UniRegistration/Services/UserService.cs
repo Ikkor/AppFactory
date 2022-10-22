@@ -42,7 +42,7 @@ namespace Services
 
         public bool Exist(string email) => _repo.Find(email).Email != null ? true : false;
 
-
+     
 
 
         public User Login(User user)
@@ -50,22 +50,32 @@ namespace Services
 
             if (user.Email == null && user.Password == null) throw new Exception("Please provide your login information");
             User found = _repo.Find(user.Email);
+
             if (user.Email == null) throw new Exception("Invalid credentials");
+
             if (Crypto.VerifyHashedPassword(found.Password, user.Password))
             {
-                int timeout = user.RememberMe ? 300 : 2;
-                var ticket = new FormsAuthenticationTicket(user.Id.ToString(), user.RememberMe, timeout);
-                string encrypted = FormsAuthentication.Encrypt(ticket);
-                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
-                cookie.Expires = DateTime.Now.AddMinutes(timeout);
-                cookie.HttpOnly = true;
-                HttpContext.Current.Response.Cookies.Add(cookie);
+                if (found.Role == Role.User) return SetCookie(user);
+
                 return user;
             }
-            throw new Exception("Invalid credentials");
+            return null;
 
             //check if admin -> redirect panel
             //check registration status -> redirect enroll or home
+        }
+
+        private User SetCookie(User user)
+        {
+            int timeout = user.RememberMe ? 300 : 1;
+            var ticket = new FormsAuthenticationTicket(user.Id.ToString(), user.RememberMe, timeout);
+            string encrypted = FormsAuthentication.Encrypt(ticket);
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
+            cookie.Expires = DateTime.Now.AddMinutes(timeout);
+            cookie.HttpOnly = true;
+            HttpContext.Current.Response.Cookies.Add(cookie);
+            return user;
+
         }
 
 

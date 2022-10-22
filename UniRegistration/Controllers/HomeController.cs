@@ -10,6 +10,15 @@ namespace UniRegistration.Controllers
     {
         public ActionResult Index()
         {
+
+
+
+            if (Session["Email"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+
             return View();
         }
 
