@@ -1,0 +1,46 @@
+﻿
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/userregister.js"></script>
+    <script type="text/javascript" src="~/Scripts/sendcontroller.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+</head>
+
+
+<body>
+    <section>
+        <div class="imgBx">
+            <img src="bgart.png">
+
+        </div>
+        <div class="contentBx">
+            <div class="formBx">
+                <h2>Create an account</h2>
+                <form>
+                    <div class="inputBx">
+                        <span>Email</span>
+                        <input id="email" type="email" name="">
+                    </div>
+                    <div class="inputBx">
+                        <span>Password</span>
+                        <input minlength="8" id="password" type="password" name="">
+                    </div>
+                    <div class="inputBx">
+                        <span>Confirm Password</span>
+                        <input minlength="8" id="confirmPassword" type="password" name="">
+                    </div>
+
+                    <div class="inputBx">
+                        <button onclick="register()" id="btnSignIn">Register</button>
+                    </div>
+
+                  
+
+                </form>
+            </div>
+        </div>
+    </section>
+</body>

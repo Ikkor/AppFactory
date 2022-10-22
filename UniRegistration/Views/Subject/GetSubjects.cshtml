@@ -1,0 +1,3 @@
+﻿@model IEnumerable<Models.Subject>
+@Html.DropDownList("Subject", new SelectList(Model.Select(k => k.SubjectName)), "Select Subject");
+

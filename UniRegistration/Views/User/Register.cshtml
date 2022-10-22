@@ -1,0 +1,51 @@
+﻿
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/userregister.js"></script>
+    <script type="text/javascript" src="~/Scripts/sendcontroller.js"></script>
+    <link rel="stylesheet" href="~/Content/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+</head>
+
+
+<body>
+    <section>
+        <div class="imgBx">
+            <img src="~/Content/bgart.png">
+
+        </div>
+        <div class="contentBx">
+            <div class="formBx">
+                <h2>Create an account</h2>
+                <form onsubmit="register()">
+                    <div class="inputBx">
+                        <label>
+                            Email
+                            <input id="email" type="email" name="">
+                        </label>
+                    </div>
+                    <div class="inputBx">
+                        <label>
+                            Password
+                            <input minlength="8" id="password" type="password" name="">
+                        </label>
+                    </div>
+                    <div class="inputBx">
+                        <label>Confirm Password
+                        <input minlength="8" id="confirmPassword" type="password" name="">
+                        </label>
+                    </div>
+
+                    <div class="inputBx">
+                        <input type="submit" id="btnRegister" value="Register">
+                    </div>
+
+                  
+
+                </form>
+            </div>
+        </div>
+    </section>
+</body>

@@ -1,0 +1,60 @@
+﻿<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+
+</head>
+
+
+<body>
+    <section>
+        <div class="imgBx">
+            <img src="bgaart.png">
+
+        </div>
+        <div class="contentBx">
+            <div class="logo">
+                <h1>logo</h1>
+            </div>
+
+            <div class="formBx">
+                
+
+                <form>
+                    <h2>Login</h2>
+
+                    <div class="inputBx">
+                        <label>Email
+                        <input required class="email" type="email" name="email">
+                        </label>
+                    </div>
+                    <div class="inputBx">
+                        <label for="password">Password
+                        <input id="password" type="password" name="password">
+                        </label>
+
+                    </div>
+                    <div class="remember">
+                        <label>
+                            <input id="rememberMe" type="checkbox" name="rememberMe">Remember me
+                        </label>
+                    </div>
+                    <div class="inputBx">
+                        <input type="submit" onclick="logIn()" id="btnSignIn">
+                    </div>
+
+
+
+                    <div class="inputBx">
+                        <p>Don't have an account? <a href="User/Register">Register now</a></p>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
