@@ -55,13 +55,12 @@ namespace Services
 
             if (Crypto.VerifyHashedPassword(found.Password, user.Password))
             {
-                if (found.Role == Role.User) return SetCookie(user);
+                if (found.Role != Role.Admin) return SetCookie(user);
 
-                return user;
+                return found;
             }
             return null;
 
-            //check if admin -> redirect panel
             //check registration status -> redirect enroll or home
         }
 

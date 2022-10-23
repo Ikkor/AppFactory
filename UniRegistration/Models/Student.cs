@@ -22,7 +22,7 @@ namespace Models
         public string Email { get; set; }
         public string NID { get; set; }
         public string Address { get; set; }
-        public int Status { get; set; }
+        public Status Status { get; set; }
 
         public int TotalMarks { get; set; }
 

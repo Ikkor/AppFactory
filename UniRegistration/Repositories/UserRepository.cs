@@ -31,47 +31,14 @@ namespace Repositories
                         userModel.Id = (int)reader["Id"];
                         userModel.Email = (string)reader["Email"];
                         userModel.Password = (string)reader["Password"];
+                        userModel.Role = (Role)reader["Role"];
 
                     }
                 }
             }
-
+           
             return userModel;
         }
-
-
-
-        public User Find(int id)
-        {
-            User userModel = new User();
-            using (SqlConnection conn = CreateConnection())
-            {
-                using (SqlCommand cmd = CreateCommand(conn, "select * from Users where Id = @Id"))
-                {
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    SqlDataReader reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        userModel.Id = (int)reader["Id"];
-                        userModel.Email = (string)reader["Email"];
-                        userModel.Password = (string)reader["Password"];
-
-                    }
-                }
-            }
-
-            return userModel;
-        }
-
-
-        public List<User> FetchAll()
-        {
-
-            throw new NotImplementedException();
-
-        }
-
-
 
 
 
@@ -92,6 +59,22 @@ namespace Repositories
             throw new Exception("Could not register user, please try again.");
 
         }
+
+
+
+        public User Find(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public List<User> FetchAll()
+        {
+
+            throw new NotImplementedException();
+
+        }
+
 
         public int Update(User user)
         {

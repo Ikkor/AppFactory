@@ -35,7 +35,7 @@ namespace Repositories
                         student.DoB = (DateTime)reader["DoB"];
                         student.FirstName = (string)reader["FirstName"];
                         student.LastName = (string)reader["LastName"];
-                        student.Status = (int)reader["Status"];
+                        student.Status = (Status)reader["Status"];
 
                     }
                 }
@@ -45,13 +45,13 @@ namespace Repositories
 
         public Student Find(int id)
         {
-            return null;
+            throw new NotImplementedException();
 
         }
 
         public int Update(Student student)
         {
-            return 1;
+            throw new NotImplementedException();
 
         }
 
@@ -71,7 +71,7 @@ namespace Repositories
                     cmd.Parameters.AddWithValue("@NID", student.NID);
                     cmd.Parameters.AddWithValue("@DoB", student.DoB);
                     cmd.Parameters.AddWithValue("@GuardianName", student.GuardianName);
-                    cmd.Parameters.AddWithValue("@Status", 0);
+                    cmd.Parameters.AddWithValue("@Status", 1);
 
 
                     return cmd.ExecuteReader().RecordsAffected;
@@ -128,7 +128,7 @@ namespace Repositories
                                 DoB = (DateTime)reader["DoB"],
                                 FirstName = (string)reader["FirstName"],
                                 LastName = (string)reader["LastName"],
-                                Status = (int)reader["Status"]
+                                Status = (Status)reader["Status"]
 
                                 
                         });

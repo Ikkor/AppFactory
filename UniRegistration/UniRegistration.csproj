@@ -133,6 +133,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ResultMap.cs" />
+    <Compile Include="Models\Status.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Services\StudentService.cs" />
