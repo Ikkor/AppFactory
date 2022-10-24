@@ -23,8 +23,7 @@ namespace Services
         public Student Register(Student student)
         {
 
-            int currentUserId = int.Parse(HttpContext.Current.User.Identity.Name);
-            student.UserId = currentUserId;
+       
             _repo.Insert(student);
             return student;
         }

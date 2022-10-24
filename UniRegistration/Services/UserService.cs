@@ -52,10 +52,9 @@ namespace Services
             User found = _repo.Find(user.Email);
 
             if (user.Email == null) throw new Exception("Invalid credentials");
-
             if (Crypto.VerifyHashedPassword(found.Password, user.Password))
             {
-                if (found.Role != Role.Admin) return SetCookie(user);
+                if (found.Role != Role.Admin) SetCookie(user);
 
                 return found;
             }
@@ -63,7 +62,7 @@ namespace Services
 
         }
 
-        private User SetCookie(User user)
+        private void SetCookie(User user)
         {
             int timeout = user.RememberMe ? 300 : 1;
             var ticket = new FormsAuthenticationTicket(user.Id.ToString(), user.RememberMe, timeout);
@@ -72,7 +71,7 @@ namespace Services
             cookie.Expires = DateTime.Now.AddMinutes(timeout);
             cookie.HttpOnly = true;
             HttpContext.Current.Response.Cookies.Add(cookie);
-            return user;
+           
 
         }
 

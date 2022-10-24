@@ -71,15 +71,10 @@ namespace UniRegistration.Controllers
 
 
 
-        [HttpGet]
-        public ActionResult LoginOLD()
-        {
-            return View();
-        }
-        
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            Session.Clear();
             return RedirectToAction("Login","User");
         }
 
@@ -105,11 +100,12 @@ namespace UniRegistration.Controllers
         {
 
 
+
             User loggedUser = _service.Login(user);
             string url = null;
             if(loggedUser != null)
             {
-
+                this.Session["Id"] = (int)loggedUser.Id;
                 this.Session["Role"] = loggedUser.Role;
                 this.Session["Email"] = loggedUser.Email;
                 switch (loggedUser.Role)

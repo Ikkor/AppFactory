@@ -161,6 +161,7 @@
     <Content Include="Content\bgart.png" />
     <Content Include="Content\enroll.css" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\logo.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

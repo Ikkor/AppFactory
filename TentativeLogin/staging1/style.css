@@ -15,16 +15,12 @@ section{
   display:flex;
 }
 
-/* .logo{
-  margin-top:-160px;
-  margin-bottom:210px;
-  
-} */
+
 .logo{
   margin-bottom:80px;
 }
 .logo img{
-width:200px;;
+width:200px;
 height:auto;
 }
 a{

@@ -55,11 +55,38 @@ namespace Repositories
 
         }
 
-        public int Insert(Student student)
-        { 
+        public bool DuplicateExist(Student student)
+        {
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, 
+                using (SqlCommand cmd = CreateCommand(conn,
+                    $"SELECT * FROM Student s" +
+                    $"INNER JOIN Users u" +
+                    $"ON s.UserId = u.Id" +
+                    $"WHERE u.Role = 2 AND (s.NID = @NID" +
+                    $"OR s.Phone = @Phone" +
+                    $"OR u.Email = @Email)"))
+                {
+                    cmd.Parameters.AddWithValue("@Phone", student.Phone);
+                    cmd.Parameters.AddWithValue("@Email", student.Email);
+                    cmd.Parameters.AddWithValue("@NID", student.NID);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    return reader.HasRows;
+                    
+                }
+
+            }
+
+        }
+
+        public int Insert(Student student)
+        {
+            if (DuplicateExist(student)) throw new Exception("Student already enrolled, duplicate violation");
+
+            using (SqlConnection conn = CreateConnection())
+            {
+                using (SqlCommand cmd = CreateCommand(conn,
                     $"INSERT INTO [Student](UserId,FirstName,LastName,Address,Phone,NID,DoB,GuardianName,Registered) VALUES (" +
                     $"@UserId,@FirstName,@LastName,@Address,@Phone,@NID,@DoB,@GuardianName,@Status"))
                 {
@@ -71,7 +98,7 @@ namespace Repositories
                     cmd.Parameters.AddWithValue("@NID", student.NID);
                     cmd.Parameters.AddWithValue("@DoB", student.DoB);
                     cmd.Parameters.AddWithValue("@GuardianName", student.GuardianName);
-                    cmd.Parameters.AddWithValue("@Status", 1);
+                    cmd.Parameters.AddWithValue("@Status", (int)Status.Pending);
 
 
                     return cmd.ExecuteReader().RecordsAffected;
@@ -81,14 +108,14 @@ namespace Repositories
             throw new Exception("Could not register student, please try again.");
         }
 
-  
+
 
 
         public List<Student> FetchAll()
         {
 
             List<Student> studentList = new List<Student>();
-            
+
             using (SqlConnection conn = CreateConnection())
             {
                 using (SqlCommand cmd = CreateCommand(conn, "SELECT s.*, r.SubjectId,r.Marks,u.Email, r.Id AS ResultId FROM Student s INNER JOIN Result r ON s.Id = r.StudentId INNER JOIN Users u ON u.Id = s.UserId"))
@@ -108,7 +135,7 @@ namespace Repositories
 
                         var foundStudent = studentList.FirstOrDefault(student => student.Id == (int)reader["Id"]);
 
-                        if (foundStudent!=null)
+                        if (foundStudent != null)
                         {
                             foundStudent.Results.Add(result);
                         }
@@ -130,8 +157,8 @@ namespace Repositories
                                 LastName = (string)reader["LastName"],
                                 Status = (Status)reader["Status"]
 
-                                
-                        });
+
+                            });
                         }
 
                     }

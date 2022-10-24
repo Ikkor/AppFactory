@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Models;
-using ViewModels;
 using Repositories;
 using Services;
 
@@ -13,10 +12,8 @@ namespace UniRegistration.Controllers
     public class StudentController : Controller
     {
 
-        private StudentService _studentService = new StudentService(new StudentRepository());
-        private SubjectService _subjectService = new SubjectService(new SubjectRepository());
+        private StudentService _service = new StudentService(new StudentRepository());
 
-        // GET: Student
         public ActionResult Index()
         {
             return RedirectToAction("Register", "Student");
@@ -26,11 +23,8 @@ namespace UniRegistration.Controllers
         public ActionResult Register()
         {
 
-            StudentRegisterVm student = new StudentRegisterVm();
-            student.SubjectList = _subjectService.GetSubjects();
 
-            //System.Diagnostics.Debug.WriteLine(_service.StudentTotalMarks()[0].TotalMarks);
-            return View(student);
+            return View();
 
         }
 
@@ -38,8 +32,8 @@ namespace UniRegistration.Controllers
         [HttpPost]
         public ActionResult Register(Student student)
         {
-
-           _studentService.Register(student);
+            student.UserId = (int)Session["Id"];
+           _service.Register(student);
             return View();
         }
         

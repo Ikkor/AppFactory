@@ -6,10 +6,28 @@
     });
 });
 
-let subjectList;
 
 
-function buildSubjectsDropdown() {
+
+getController("/Subject/GetSubjects").then((response) => {
+
+    var subjectList = JSON.parse(response);
+    buildSubjectsDropdown(subjectList);
+
+
+    $(".selectpicker").on("changed.bs.select", function (e, clickedIndex, newValue, oldValue) {
+        var sel = $(this).find('option').eq(clickedIndex).val();
+        var selected = $(this).val();
+
+
+        if (selected) {
+            buildGradesDropdown(selected, $('.result_input'), subjectList);
+        }
+    });
+})
+
+
+function buildSubjectsDropdown(subjectList) {
     subjectList.forEach(subject => {
         $('.selectpicker').append('<option name="' + subject.SubjectName + '"value=' + subject.Id + '>' + subject.SubjectName + '</option>');
     })
@@ -17,14 +35,14 @@ function buildSubjectsDropdown() {
 
 }
 
-function buildGradesDropdown(selected,container) {
+function buildGradesDropdown(selected, container, subjectList) {
     var innerHTML = "";
     selected.forEach(element => {
         console.log(element);
         var subIndex = subjectList.findIndex(subject => subject.Id == element);
-        innerHTML += '<label for="subject_result">' + subjectList[subIndex]["SubjectName"] + '</label>' +
+        innerHTML += '<label for="result_select">' + subjectList[subIndex]["SubjectName"] + '</label>' +
 
-            '<select required id=' + subjectList[subIndex]["Id"] + ' class = "subject_result">' +
+            '<select required id=' + subjectList[subIndex]["Id"] + ' class = "result_select">' +
             '<option value="" selected disabled hidden>Grade</option>' +
             '<option value="A">A</option>' +
             '<option value="B">B</option>' +
@@ -39,21 +57,46 @@ function buildGradesDropdown(selected,container) {
     container.html(innerHTML);
 }
 
-getController("/Subject/GetSubjects").then((response) => {
-
-    subjectList = JSON.parse(response);
-    buildSubjectsDropdown();
 
 
-    $(".selectpicker").on("changed.bs.select", function (e, clickedIndex, newValue, oldValue) {
-        var sel = $(this).find('option').eq(clickedIndex).val();
-        var selected = $(this).val();
-        
+function register() {
 
-        if (selected) {
-            buildGradesDropdown(selected,$('.result_input'));
-        }
+    var FirstName = $("#fname").val();
+    var NID = $('#NID').val();
+    var Date = $('#date').val();
+    var GuardianName = $('#guardian').val();
+    var Phone = $('#phone').val();
+    var result_values = {};
+    $(".result_select").each(function () {
+        result_values[this.id] = this.value;
     });
-})
- 
+
+
+    var _confirmPassword = $("#confirmPassword").val();
+
+   /*
+    var studentObj = {FirstName,NID,Date,GuardianName,Phone};
+
+    sendController(studentObj, "/Student/Register").then((response) => {
+
+        if (!response.error) {
+
+            toastr.success("Registration Succeed. Redirecting to relevent page.....");
+            //window.location = response.url;
+        }
+        else {
+            toastr.error('Please provide the correct information, ');
+            return false;
+        }
+    })
+        .catch((error) => {
+            toastr.error('Unable to make request!!');
+        });
+*/
+
+
+}
+
+
+
 
