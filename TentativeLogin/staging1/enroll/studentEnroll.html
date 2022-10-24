@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+
+  <!-- Style -->
+  <link rel="stylesheet" href="css/enroll.css">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+
+  <title>Sign Up #2</title>
+</head>
+
+
+
+
+
+<div class="d-lg-flex half">
+  <div class="bg order-1 order-md-2" style="background-image: url('images/bg_1.jpg');"></div>
+
+
+  <div class="contents order-2 order-md-1">
+
+    <div class="container">
+      <a style="float:right" href="">Logout</a>
+      <div class="row align-items-center justify-content-center">
+        <div class="col-md-7 py-5">
+          <h3>Student Enrollment Form</h3>
+          <p class="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p>
+          <form action="#" method="post">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group first">
+                  <label for="fname">First Name</label>
+                  <input required type="text" class="form-control" placeholder="e.g. John" id="fname">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group first">
+                  <label for="lname">Last Name</label>
+                  <input required type="text" class="form-control" placeholder="e.g. Smith" id="lname">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group first">
+                  <label for="email">Email Address</label>
+                  <input required type="email" class="form-control" placeholder="e.g. john@uom.com" id="email">
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group first">
+                  <label for="NID">National Identity Card Number</label>
+                  <input required type="text" class="form-control" id="NID">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group first">
+                  <label for="phone">Phone number</label>
+                  <input required type="number"class="form-control" id="phone">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group first">
+                  <label for="date">Date of birth</label>
+                  <input required type="date" class="form-control" id="date">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group first">
+                  <label for="NID">National Identity Card Number</label>
+                  <input type="text" class="form-control" id="NID">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group first">
+                  <label for="guardian">Guardian Name</label>
+                  <input type="text" class="form-control" id="guardian">
+                </div>
+              </div>
+            </div>
+            <h5>Provide your HSC results</h5>
+            <div class="row">
+              <div class="col-md-6">
+      
+                <div class="form-group first">
+                  <select required class="selectpicker subject_select" class="form-select" multiple data-max-options="3" >
+                    <option name = "Maths" value="1">Maths</option>
+                    <option name = "French" value="2">French</option>
+                    <option name = "Mas" value="3">Mas</option>
+
+                    <option name = "Masths" value="4">Mass</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6 result_input">
+
+ 
+
+               
+
+              
+            </div>
+
+            <input type="submit" value="Register" class="btn px-5 btn-primary btnSubmit">
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<script>
+  var global_subj = ["maths","french",'whatever','wsadsf','hotdog'];
+$(".selectpicker").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
+   var sel = $(this).find('option').eq(clickedIndex).val();
+   var selected = $(this).val();
+   var innerhtml="";
+
+    if(selected){
+   selected.forEach(element => {
+
+    innerhtml+='<label for="subject_result">'+global_subj[element]+'</label>'+
+
+    '<select required id='+element+' class = "subject_result">'+
+      '<option value="" selected disabled hidden>Grade</option>'+
+      '<option value="A">A</option>'+
+      '<option value="B">B</option>'+
+      '<option value="C">C</option>'+
+      '<option value="D">D</option>'+
+      '<option value="E">E</option>'+
+      '<option value="E">F</option>'+
+    '</select>'
+
+  
+  });
+}
+   $('.result_input').html(innerhtml);
+   //sel & newval
+});
+</script>
+</body>
+
+</html>

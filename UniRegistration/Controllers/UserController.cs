@@ -17,9 +17,10 @@ namespace UniRegistration.Controllers
         private UserService _service = new UserService(new UserRepository());
 
 
-        public ActionResult Home()
+        public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login", "User");
+
         }
 
 

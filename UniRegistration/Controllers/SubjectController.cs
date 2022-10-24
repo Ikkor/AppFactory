@@ -6,7 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Models;
-
+using System.Security.Policy;
+using System.Collections;
+using Newtonsoft.Json;
 
 namespace Controllers
 {
@@ -20,9 +22,10 @@ namespace Controllers
             return View();
         }
 
-        public PartialViewResult GetSubjects()
+        public JsonResult GetSubjects()
         {
-            return PartialView("GetSubjects",_service.GetSubjects());
+            var jsonString = JsonConvert.SerializeObject(_service.GetSubjects());
+            return Json(jsonString);
 
         }
     }

@@ -9,15 +9,6 @@ $(function () {
 
 
 
-function matchPassword(pw1, pw2) {
-
-    if (pw1 != pw2) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
 
 
 function register() {
@@ -26,7 +17,7 @@ function register() {
     var Password = $("#password").val();
     var _confirmPassword = $("#confirmPassword").val();
 
-    if (!matchPassword(password, _confirmPassword)) {
+    if (Password!=_confirmPassword) {
         toastr.error('Password does not match.');
         return false;
     }

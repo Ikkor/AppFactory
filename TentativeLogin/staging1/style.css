@@ -15,11 +15,21 @@ section{
   display:flex;
 }
 
-.logo{
+/* .logo{
   margin-top:-160px;
   margin-bottom:210px;
+  
+} */
+.logo{
+  margin-bottom:80px;
 }
-
+.logo img{
+width:200px;;
+height:auto;
+}
+a{
+  color: #3982E8;
+}
 
 
 section .imgBx
@@ -63,10 +73,10 @@ section .contentBx .formBx{
 section .contentBx .formBx h2{
   text-align: center;
   font: weight 600px;
-  color:rgb(0, 0, 0);
+  color:#08193E;
   text-transform:uppercase;
   font-size:1.5em;
-  border-bottom: 4px solid black;
+  border-bottom: 4px solid #3982E8;
   letter-spacing: 1px;
 }
 
@@ -81,6 +91,7 @@ section .contentBx .formBx .inputBx label{
   font-weight:300;
   font-size:16px;
   letter-spacing: 1px;
+  transition: 0.5s
 }
 
 .inputBx input{
@@ -89,35 +100,35 @@ section .contentBx .formBx .inputBx label{
   outline: none;
   font-weight:400;
   border-width: 0 0 2px;
-  border-color: rgb(0, 0, 0);
+  border-color: rgb(34, 34, 34);
   letter-spacing: 1px;
-  color:black;
+  color:rgb(34, 34, 34);
   background:transparent;
 }
 
 
 .inputBx label:focus-within {
-  color: rgb(0, 115, 255);
+  color: #3982E8;
 }
 .inputBx input:focus{
-  border-color:rgb(0, 115, 255);
+  border-color:#3982E8;
 }
 
 
 section .contentBx .formBx .inputBx input[type="submit"]{
 
-background: rgb(0, 166, 255);
+background: #3982E8;
 color:rgb(255, 255, 255);
 outline:none;
 border:none;
 font-weight:500;
 cursor: pointer;
-
+transition:background 0.2s;
 }
 
 section .contentBx .formBx .inputBx input[type="submit"]:hover{
 
-
+  background: #08193E;
 }
 
 section .contentBx .formBx .remember{
@@ -153,4 +164,3 @@ section .contentBx .formBx .remember{
     margin:50px;
   }
 }
-

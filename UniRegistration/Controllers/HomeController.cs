@@ -19,10 +19,7 @@ namespace UniRegistration.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
-/*            if ((Session["Role"]).Equals(Role.Admin)){
-                return RedirectToAction("Index", "Admin");
-            }
-*/
+
 
             switch (Session["Role"])
             {

@@ -2,9 +2,9 @@
 <head>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/controllerbridge.js"></script>
     <script type="text/javascript" src="~/Scripts/userregister.js"></script>
-    <script type="text/javascript" src="~/Scripts/sendcontroller.js"></script>
-    <link rel="stylesheet" href="~/Content/style.css" />
+    <link rel="stylesheet" href="~/Content/login.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 
 </head>
@@ -23,18 +23,18 @@
                     <div class="inputBx">
                         <label>
                             Email
-                            <input id="email" type="email" name="">
+                            <input required id="email" type="email" name="">
                         </label>
                     </div>
                     <div class="inputBx">
                         <label>
                             Password
-                            <input minlength="8" id="password" type="password" name="">
+                            <input required minlength="8" id="password" type="password" name="">
                         </label>
                     </div>
                     <div class="inputBx">
                         <label>Confirm Password
-                        <input minlength="8" id="confirmPassword" type="password" name="">
+                        <input reqquired minlength="8" id="confirmPassword" type="password" name="">
                         </label>
                     </div>
 

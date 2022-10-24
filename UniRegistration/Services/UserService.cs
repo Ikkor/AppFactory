@@ -61,7 +61,6 @@ namespace Services
             }
             return null;
 
-            //check registration status -> redirect enroll or home
         }
 
         private User SetCookie(User user)

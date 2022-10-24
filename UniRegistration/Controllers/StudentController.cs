@@ -19,7 +19,7 @@ namespace UniRegistration.Controllers
         // GET: Student
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Register", "Student");
         }
 
         [HttpGet]
