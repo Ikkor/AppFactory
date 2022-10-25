@@ -7,8 +7,8 @@ namespace Repositories
     {
 
         T Find(int id);
-        
-        int Insert(T user);
+/*        T Find(string name);
+*/        int Insert(T user);
         int Update(T user);
         List<T> FetchAll();
 

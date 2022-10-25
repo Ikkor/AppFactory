@@ -13,9 +13,7 @@ namespace UniRegistration.Controllers
         public ActionResult Index()
         {
 
-            //debug
-            return RedirectToAction("Register", "Student");
-
+         
             if (Session["Email"] == null)
             {
                 return RedirectToAction("Login", "User");

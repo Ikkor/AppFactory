@@ -135,7 +135,7 @@
     </Compile>
     <Compile Include="Models\ResultMap.cs" />
     <Compile Include="Models\Status.cs" />
-    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\ResultRepository.cs" />
     <Compile Include="Repositories\SubjectRepository.cs" />
     <Compile Include="Services\StudentService.cs" />
     <Compile Include="Repositories\IRepository.cs" />
@@ -150,8 +150,6 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\SubjectService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="ViewModels\StudentRegisterVm.cs" />
-    <Compile Include="ViewModels\UserRegisterVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

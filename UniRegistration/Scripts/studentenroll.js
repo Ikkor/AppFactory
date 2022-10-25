@@ -62,27 +62,26 @@ function buildGradesDropdown(selected, container, subjectList) {
 function register() {
 
     var FirstName = $("#fname").val();
+    var LastName = $("#lname").val();
     var NID = $('#NID').val();
-    var Date = $('#date').val();
+    var DoB = $('#date').val();
     var GuardianName = $('#guardian').val();
     var Phone = $('#phone').val();
-    var result_values = {};
+    var Address = $('#address').val();
+    var _resultvalues = {};
+
     $(".result_select").each(function () {
         result_values[this.id] = this.value;
     });
+    var resultObj = buildResultJSON(_resultvalues);
 
-
-    var _confirmPassword = $("#confirmPassword").val();
-
-   /*
-    var studentObj = {FirstName,NID,Date,GuardianName,Phone};
+    var studentObj = {FirstName,LastName,NID,DoB,Address,GuardianName,Phone};
 
     sendController(studentObj, "/Student/Register").then((response) => {
 
         if (!response.error) {
 
             toastr.success("Registration Succeed. Redirecting to relevent page.....");
-            //window.location = response.url;
         }
         else {
             toastr.error('Please provide the correct information, ');
@@ -92,9 +91,27 @@ function register() {
         .catch((error) => {
             toastr.error('Unable to make request!!');
         });
-*/
 
 
+
+}
+
+
+function buildResultJSON(result_list) {
+    jsonObj = [];
+
+
+    for (var resultid = 0; i < result_list.length; i++) {
+        var id = i;
+        var marks = result_list[resultid];
+        item = {}
+        item["SubjectId"] = id;
+        item["Marks"] = marks;
+        
+        jsonObj.push(item);
+
+    }
+    return JSON.stringify(jsonObj);
 }
 
 

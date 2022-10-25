@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Repositories;
-using ViewModels;
 using Services;
 using System.Web.Security;
 using Models;
@@ -40,6 +39,7 @@ namespace UniRegistration.Controllers
             try
             {
                 _service.Register(user);
+                
             }
             catch (Exception e)
             {

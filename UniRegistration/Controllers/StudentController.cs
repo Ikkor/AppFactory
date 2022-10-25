@@ -11,7 +11,6 @@ namespace UniRegistration.Controllers
 {
     public class StudentController : Controller
     {
-
         private StudentService _service = new StudentService(new StudentRepository());
 
         public ActionResult Index()
@@ -22,20 +21,17 @@ namespace UniRegistration.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-
-
             return View();
-
         }
-
 
         [HttpPost]
-        public ActionResult Register(Student student)
+        public JsonResult Register(Student student)
         {
             student.UserId = (int)Session["Id"];
-           _service.Register(student);
-            return View();
+            
+            _service.Register(student);
+
+            return Json(new { message = "done" });
         }
-        
     }
 }

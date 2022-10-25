@@ -7,7 +7,6 @@ using Models;
 using System.Data.SqlClient;
 using System.Web.Helpers;
 using Common;
-using ViewModels;
 
 
 
@@ -60,11 +59,11 @@ namespace Repositories
             using (SqlConnection conn = CreateConnection())
             {
                 using (SqlCommand cmd = CreateCommand(conn,
-                    $"SELECT * FROM Student s" +
-                    $"INNER JOIN Users u" +
-                    $"ON s.UserId = u.Id" +
-                    $"WHERE u.Role = 2 AND (s.NID = @NID" +
-                    $"OR s.Phone = @Phone" +
+                    $"SELECT * FROM Student s " +
+                    $"INNER JOIN Users u " +
+                    $"ON s.UserId = u.Id " +
+                    $"WHERE u.Role = 2 AND (s.NID = @NID " +
+                    $"OR s.Phone = @Phone " +
                     $"OR u.Email = @Email)"))
                 {
                     cmd.Parameters.AddWithValue("@Phone", student.Phone);
@@ -87,26 +86,26 @@ namespace Repositories
             using (SqlConnection conn = CreateConnection())
             {
                 using (SqlCommand cmd = CreateCommand(conn,
-                    $"INSERT INTO [Student](UserId,FirstName,LastName,Address,Phone,NID,DoB,GuardianName,Registered) VALUES (" +
-                    $"@UserId,@FirstName,@LastName,@Address,@Phone,@NID,@DoB,@GuardianName,@Status"))
+                    $"INSERT INTO [Student](UserId,FirstName,LastName,Address,Phone,NID,DoB,GuardianName, Status) VALUES (" +
+                    $"@UserId,@FirstName,@LastName,@Address,@Phone,@NID,@DoB,@GuardianName,@Status); SELECT SCOPE_IDENTITY();"))
                 {
                     cmd.Parameters.AddWithValue("@UserId", student.UserId);
                     cmd.Parameters.AddWithValue("@Email", student.Email);
                     cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", student.LastName);
                     cmd.Parameters.AddWithValue("@Address", student.Address);
+                    cmd.Parameters.AddWithValue("@Phone", student.Phone);
                     cmd.Parameters.AddWithValue("@NID", student.NID);
                     cmd.Parameters.AddWithValue("@DoB", student.DoB);
                     cmd.Parameters.AddWithValue("@GuardianName", student.GuardianName);
                     cmd.Parameters.AddWithValue("@Status", (int)Status.Pending);
 
-
-                    return cmd.ExecuteReader().RecordsAffected;
+                    return Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }
-            throw new Exception("Could not register student, please try again.");
-        }
+/*            throw new Exception("Could not register student, please try again.");
+*/        }
 
 
 

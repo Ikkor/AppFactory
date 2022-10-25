@@ -16,6 +16,11 @@ namespace Repositories
             throw new NotImplementedException();
         }
 
+        public Subject Find(string name)
+        {
+            throw new NotImplementedException();
+        }
+
         public int Insert(Subject subject)
         {
             throw new NotImplementedException();
