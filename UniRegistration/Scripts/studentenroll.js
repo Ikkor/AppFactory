@@ -44,12 +44,12 @@ function buildGradesDropdown(selected, container, subjectList) {
 
             '<select required id=' + subjectList[subIndex]["Id"] + ' class = "result_select">' +
             '<option value="" selected disabled hidden>Grade</option>' +
-            '<option value="A">A</option>' +
-            '<option value="B">B</option>' +
-            '<option value="C">C</option>' +
-            '<option value="D">D</option>' +
-            '<option value="E">E</option>' +
-            '<option value="E">F</option>' +
+            '<option value="10">A[10]</option>' +
+            '<option value="8">B[8]</option>' +
+            '<option value="6">C[6]</option>' +
+            '<option value="4">D[4]</option>' +
+            '<option value="2">E[2]</option>' +
+            '<option value="0">F[0]</option>' +
             '</select>'
 
     });
@@ -61,30 +61,32 @@ function buildGradesDropdown(selected, container, subjectList) {
 
 function register() {
 
-    var FirstName = $("#fname").val();
-    var LastName = $("#lname").val();
-    var NID = $('#NID').val();
-    var DoB = $('#date').val();
-    var GuardianName = $('#guardian').val();
-    var Phone = $('#phone').val();
-    var Address = $('#address').val();
+    var FirstName = document.getElementById("fname").value;
+    var LastName = document.getElementById("lname").value;
+    var NID = document.getElementById("NID").value;
+    var DoB = document.getElementById("date").value;
+    var GuardianName = document.getElementById("guardian").value;
+    var Phone = document.getElementById("phone").value;
+    var Address = document.getElementById("address").value;
     var _resultvalues = {};
-
+   
     $(".result_select").each(function () {
-        result_values[this.id] = this.value;
+        _resultvalues[this.id] = this.value;
     });
-    var resultObj = buildResultJSON(_resultvalues);
+    var Results = buildResultJSON(_resultvalues);
 
-    var studentObj = {FirstName,LastName,NID,DoB,Address,GuardianName,Phone};
+    var studentObj = {FirstName,LastName,NID,DoB,Address,GuardianName,Phone,Results};
 
     sendController(studentObj, "/Student/Register").then((response) => {
 
         if (!response.error) {
 
             toastr.success("Registration Succeed. Redirecting to relevent page.....");
+            window.location = response.url;
+
         }
         else {
-            toastr.error('Please provide the correct information, ');
+            toastr.error(response.error);
             return false;
         }
     })
@@ -100,18 +102,18 @@ function register() {
 function buildResultJSON(result_list) {
     jsonObj = [];
 
-
-    for (var resultid = 0; i < result_list.length; i++) {
-        var id = i;
-        var marks = result_list[resultid];
+    for (const i in result_list) {
+        var resultId = i;
+        console.log(i);
+        var marks = result_list[resultId];
         item = {}
-        item["SubjectId"] = id;
+        item["SubjectId"] = resultId;
         item["Marks"] = marks;
-        
         jsonObj.push(item);
+        
 
     }
-    return JSON.stringify(jsonObj);
+    return jsonObj;
 }
 
 

@@ -10,7 +10,7 @@ namespace Common
         {
             SqlConnection result = new SqlConnection(_connString);
             result.Open();
-            return result;
+            return result; //add close
         }
 
         protected SqlCommand CreateCommand(SqlConnection conn, string sql)

@@ -8,7 +8,7 @@ using System.Web;
 namespace Models
 {
     public class Student
-    {
+    {//use viewmodels
         
         public int UserId { get; set; }
         public int Id { get; set; }
@@ -22,6 +22,7 @@ namespace Models
         public string Email { get; set; }
         public string NID { get; set; }
         public string Address { get; set; }
+
         public Status Status { get; set; }
 
         public int TotalMarks { get; set; }

@@ -1,5 +1,4 @@
-﻿
-$(function () {
+﻿document.addEventListener("DOMContentLoaded", () => {
     let form = document.querySelector('form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -8,10 +7,12 @@ $(function () {
 });
 
 
+
+
 function logIn() {
-    var Email = $("#email").val();
-    var Password = $("#password").val();
-    var RememberMe = $("#rememberMe").val();
+   var Email = document.getElementById("email").value;
+   var Password = document.getElementById("password").value;
+   var RememberMe = document.getElementById("rememberMe").value;
 
     var authObj = { Email, Password, RememberMe };
 

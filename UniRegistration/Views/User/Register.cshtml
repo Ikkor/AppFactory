@@ -17,7 +17,11 @@
 
         </div>
         <div class="contentBx">
+            <div class="logo">
+                <img src="~/Content/logo.png">
+            </div>
             <div class="formBx">
+
                 <h2>Create an account</h2>
                 <form onsubmit="register()">
                     <div class="inputBx">
@@ -33,16 +37,20 @@
                         </label>
                     </div>
                     <div class="inputBx">
-                        <label>Confirm Password
-                        <input reqquired minlength="8" id="confirmPassword" type="password" name="">
+                        <label>
+                            Confirm Password
+                            <input reqquired minlength="8" id="confirmPassword" type="password" name="">
                         </label>
                     </div>
 
                     <div class="inputBx">
                         <input type="submit" id="btnRegister" value="Register">
                     </div>
+                    <div class="inputBx">
+                        <p>Already have an account?'<a href="Login">Log In</a> instead</p>
+                    </div>
 
-                  
+
 
                 </form>
             </div>

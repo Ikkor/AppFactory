@@ -1,5 +1,4 @@
-﻿
-$(function () {
+﻿document.addEventListener("DOMContentLoaded", () => {
     let form = document.querySelector('form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -13,9 +12,9 @@ $(function () {
 
 function register() {
 
-    var Email = $("#email").val();
-    var Password = $("#password").val();
-    var _confirmPassword = $("#confirmPassword").val();
+    var Email = document.getElementById("email").value;
+    var Password = document.getElementById("password").value;
+    var _confirmPassword = document.getElementById("confirmPassword").value;
 
     if (Password!=_confirmPassword) {
         toastr.error('Password does not match.');
@@ -31,7 +30,7 @@ function register() {
         if (!response.error) {
 
             toastr.success("Registration Succeed. Redirecting to relevent page.....");
-            //window.location = response.url;
+            window.location = response.url;
         }
         else {
             toastr.error('Unable to register user, ' + response.error);

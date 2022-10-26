@@ -20,10 +20,12 @@ h6,
 .h5,
 .h6 {
   font-family: "Roboto", sans-serif;
+  color:darkblue
 }
 
 h5 {
   text-align: center;
+  color:darkblue;
 }
 
 a {

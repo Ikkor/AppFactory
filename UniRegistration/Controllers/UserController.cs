@@ -8,6 +8,7 @@ using Services;
 using System.Web.Security;
 using Models;
 using System.Diagnostics;
+using System.Security.Policy;
 
 namespace UniRegistration.Controllers
 {
@@ -46,28 +47,10 @@ namespace UniRegistration.Controllers
                 return Json(new { error = e.Message });
             }
 
-            return Json(new { message=user.Email });
+            return Json(new { url = Url.Action("Login", "User") });
         }
 
 
-
-
-
-            /*        [HttpPost]
-                    [ValidateAntiForgeryToken]
-                    public ActionResult Register(UserRegisterVm user)
-                    {
-
-                        try
-                        {
-                            _service.Register(user.Email, user.Password);
-                        }
-                        catch(Exception e)
-                        {
-                            ModelState.AddModelError("ErrorMsg", e.Message);
-                        }
-                        return View();
-                    }*/
 
 
 
@@ -78,32 +61,13 @@ namespace UniRegistration.Controllers
             return RedirectToAction("Login","User");
         }
 
-/*        [HttpPost]
-        public ActionResult LoginOLD(User user)
-        {
-            try
-            {
-                _service.Login(user.Email, user.Password,user.RememberMe);
-                return RedirectToAction("About", "Home");
-            }
-            catch (Exception e)
-            {
-                ModelState.AddModelError("ErrorMsg", e.Message);
-            }
-
-            return View();
-        }*/
-
 
         [HttpPost]
         public JsonResult Login(User user)
         {
-
-
-
             User loggedUser = _service.Login(user);
             string url = null;
-            if(loggedUser != null)
+            if (loggedUser != null)
             {
                 this.Session["Id"] = (int)loggedUser.Id;
                 this.Session["Role"] = loggedUser.Role;
@@ -112,29 +76,13 @@ namespace UniRegistration.Controllers
                 {
                     case Role.Admin: url = "/Admin"; break;
                     case Role.User: url = "/Home"; break;
+                    case Role.Enrolled: url = Url.Action("Index", "Student"); break;
 
                 }
             }
-           
-            return Json(new {url = url });
-            
-            
-            
-            
-            /*            try
-            {
-               User loggedUser = _service.Login(user);
 
-                this.Session["Role"] = loggedUser.Role;
-                this.Session["Email"] = loggedUser.Email;
-                
-            }
-            catch(Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
+            return Json(new { url = url });
 
-                return Json(new {url: Url.Action("Index", "Employee")) });*/
 
         }
 

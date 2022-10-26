@@ -46,8 +46,4 @@ namespace Repositories
 
 
     }
-}/*        public int Id { get; set; }
-        public int SubjectId { get; set; }  
-        public int Marks { get; set; }
-        public int StudentId { get; set; }
-*/
+}

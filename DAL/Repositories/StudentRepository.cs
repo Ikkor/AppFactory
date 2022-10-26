@@ -1,18 +1,20 @@
-﻿using Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Models;
 using System.Data.SqlClient;
-using System.Web.Helpers;
 using Common;
 
 
 
 namespace Repositories
 {
-    public class StudentRepository : SqlHelper, IRepository<Student>
+    public interface IStudentRepository : IRepository<Student>
+    {
+        Status GetStatus(int id);
+
+    }
+    public class StudentRepository : SqlHelper, IStudentRepository
     {
         public Student Find(string email)
         {
@@ -46,6 +48,11 @@ namespace Repositories
         {
             throw new NotImplementedException();
 
+        }
+
+        public Status GetStatus(int id)
+        {
+            return (Status)1;
         }
 
         public int Update(Student student)
@@ -90,7 +97,6 @@ namespace Repositories
                     $"@UserId,@FirstName,@LastName,@Address,@Phone,@NID,@DoB,@GuardianName,@Status); SELECT SCOPE_IDENTITY();"))
                 {
                     cmd.Parameters.AddWithValue("@UserId", student.UserId);
-                    cmd.Parameters.AddWithValue("@Email", student.Email);
                     cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", student.LastName);
                     cmd.Parameters.AddWithValue("@Address", student.Address);
@@ -116,7 +122,7 @@ namespace Repositories
             List<Student> studentList = new List<Student>();
 
             using (SqlConnection conn = CreateConnection())
-            {
+            {//specify clumns
                 using (SqlCommand cmd = CreateCommand(conn, "SELECT s.*, r.SubjectId,r.Marks,u.Email, r.Id AS ResultId FROM Student s INNER JOIN Result r ON s.Id = r.StudentId INNER JOIN Users u ON u.Id = s.UserId"))
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
