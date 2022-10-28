@@ -10,11 +10,8 @@
 
 
 getController("/Subject/GetSubjects").then((response) => {
-
     var subjectList = JSON.parse(response);
     buildSubjectsDropdown(subjectList);
-
-
     $(".selectpicker").on("changed.bs.select", function (e, clickedIndex, newValue, oldValue) {
         var sel = $(this).find('option').eq(clickedIndex).val();
         var selected = $(this).val();
@@ -32,7 +29,6 @@ function buildSubjectsDropdown(subjectList) {
         $('.selectpicker').append('<option name="' + subject.SubjectName + '"value=' + subject.Id + '>' + subject.SubjectName + '</option>');
     })
     $('.selectpicker').selectpicker('refresh');
-
 }
 
 function buildGradesDropdown(selected, container, subjectList) {
@@ -51,9 +47,7 @@ function buildGradesDropdown(selected, container, subjectList) {
             '<option value="2">E[2]</option>' +
             '<option value="0">F[0]</option>' +
             '</select>'
-
     });
-    
     container.html(innerHTML);
 }
 
@@ -73,9 +67,12 @@ function register() {
     $(".result_select").each(function () {
         _resultvalues[this.id] = this.value;
     });
+
     var Results = buildResultJSON(_resultvalues);
 
-    var studentObj = {FirstName,LastName,NID,DoB,Address,GuardianName,Phone,Results};
+    var studentObj = { FirstName, LastName, NID, DoB, Address, GuardianName, Phone, Results };
+
+
 
     sendController(studentObj, "/Student/Register").then((response) => {
 

@@ -15,8 +15,6 @@ namespace Repositories
     }
     public class ResultRepository:SqlHelper,IResultRepository<Result>
     {
-
-        
         public int Insert(List<Result> resultList, int studentId)
         {
             int rowsAffected = 0;
@@ -27,23 +25,16 @@ namespace Repositories
                     cmd.Parameters.AddWithValue("@SubjectId", SqlDbType.Int);
                     cmd.Parameters.AddWithValue("@StudentId", studentId);
                     cmd.Parameters.AddWithValue("@Marks", SqlDbType.Int);
-
                     foreach(Result result in resultList)
                     {
                         cmd.Parameters["@SubjectId"].Value = result.SubjectId;
                         cmd.Parameters["@Marks"].Value = result.Marks;
                        rowsAffected =  cmd.ExecuteNonQuery();
                     }
-
-
-
                 }
-
+                conn.Close();
             }
             return rowsAffected;
-
         }
-
-
     }
 }

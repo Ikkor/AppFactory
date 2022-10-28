@@ -66,9 +66,9 @@
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj">
+    <ProjectReference Include="..\DAL\DataAccessLayer.csproj">
       <Project>{cdb01bb5-8f32-45b0-a746-7d5bd9c52c21}</Project>
-      <Name>DAL</Name>
+      <Name>DataAccessLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

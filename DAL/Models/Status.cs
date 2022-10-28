@@ -5,10 +5,10 @@ using System.Web;
 
 namespace Models
 {
-    public enum Status
+   public enum Status
     {
         Rejected =0,
         Pending = 1,
-        Approved = 2,
+        Approved = 2
     }
 }

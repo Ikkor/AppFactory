@@ -17,7 +17,7 @@ namespace UniRegistration.Controllers
         public ActionResult Index()
         {
             //to do: check if user enrolled else redirect
-
+            
             return View();
         }
 
@@ -26,7 +26,6 @@ namespace UniRegistration.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public JsonResult Register(Student student)
         {
@@ -35,19 +34,17 @@ namespace UniRegistration.Controllers
             try
             {
                 _service.Register(student);
-            } 
-            catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return Json(new { error = e.Message });
             }
-
-                return Json(new { url = Url.Action("Index", "Student") });
+            return Json(new { url = Url.Action("Index", "Student") });
         }
-
         [HttpPost]
         public JsonResult GetStatus()
         {
-            Status _status = (Status)_service.GetStatus((int)Session["Id"]);
+            Status _status = (Status)_service.GetEnrollmentStatus((int)Session["Id"]);
             string _statusStr = JsonConvert.SerializeObject(_status);
             return Json(new { status = _status });
         }

@@ -14,11 +14,15 @@ namespace Repositories
     public interface IUserRepository:IRepository<User>
     {
        User Find (string email);
-        int EnrollUser(int id);
+       int EnrollUser(int id);
+
+       
     }
 
     public class UserRepository : SqlHelper, IUserRepository
     {
+
+      
 
         public User Find(string email)
         {
@@ -35,17 +39,13 @@ namespace Repositories
                         userModel.Email = (string)reader["Email"];
                         userModel.Password = (string)reader["Password"];
                         userModel.Role = (Role)reader["Role"];
-
                     }
                 }
+                conn.Close();
             }
            
             return userModel;
         }
-
-
-
-
         public int Insert(User user)
         {
             using (SqlConnection conn = CreateConnection())
@@ -55,24 +55,21 @@ namespace Repositories
                     cmd.Parameters.AddWithValue("@Email", user.Email);
                     cmd.Parameters.AddWithValue("@Password", user.Password);
                     cmd.Parameters.AddWithValue("@Role", user.Role);
+                    conn.Close();
                     return cmd.ExecuteReader().RecordsAffected;
                 }
+                
 
             }
             throw new Exception("Could not register user, please try again.");
 
         }
-
-
-
         public User Find(int Id)
         {
-
 
             throw new NotImplementedException();
 
         }
-
 
         public List<User> FetchAll()
         {
@@ -88,7 +85,7 @@ namespace Repositories
                 using (SqlCommand cmd = CreateCommand(conn, $"UPDATE Users set Role = 2 WHERE Id = @Id"))
                 {
                     cmd.Parameters.AddWithValue("@Id", id);
-
+                    conn.Close();
                     return cmd.ExecuteReader().RecordsAffected;
                 }
 
@@ -96,15 +93,10 @@ namespace Repositories
             throw new Exception("Could not enroll user, please try again.");
         }
 
-
         public int Update(User user)
         {
             throw new NotImplementedException();
         }
-
-
-
-
     }
 }
 

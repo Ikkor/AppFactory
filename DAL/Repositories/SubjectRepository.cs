@@ -10,26 +10,21 @@ namespace Repositories
 {
     public class SubjectRepository : SqlHelper, IRepository<Subject>
     {
-
         public Subject Find(int id)
         {
             throw new NotImplementedException();
         }
-
         public Subject Find(string name)
         {
             throw new NotImplementedException();
         }
-
         public int Insert(Subject subject)
         {
             throw new NotImplementedException();
         }
-
         public int Update(Subject subject)
         {
             throw new NotImplementedException();
-
         }
         public List<Subject> FetchAll()
         {
@@ -48,9 +43,9 @@ namespace Repositories
                         subjectList.Add(subject);
                     }
                 }
+                conn.Close();
             }
             return subjectList;
-
         }
     }
 }

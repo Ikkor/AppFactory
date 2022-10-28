@@ -12,21 +12,16 @@ namespace UniRegistration.Controllers
     {
         public ActionResult Index()
         {
-
-         
             if (Session["Email"] == null)
             {
                 return RedirectToAction("Login", "User");
             }
-
-
             switch (Session["Role"])
             {
                 case Role.Admin: return RedirectToAction("Index", "Admin");
                 case Role.Enrolled: return RedirectToAction("Index", "Student");
                 case Role.User: return RedirectToAction("Register", "Student");
             }
-
             return View();
         }
 

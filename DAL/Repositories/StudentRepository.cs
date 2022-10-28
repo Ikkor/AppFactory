@@ -4,15 +4,11 @@ using System.Linq;
 using Models;
 using System.Data.SqlClient;
 using Common;
-
-
-
 namespace Repositories
 {
     public interface IStudentRepository : IRepository<Student>
     {
-        Status GetStatus(int id);
-
+        Status GetEnrollmentStatus(int studentId);
     }
     public class StudentRepository : SqlHelper, IStudentRepository
     {
@@ -28,29 +24,28 @@ namespace Repositories
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        student.Id = (int)reader["Id"];
+                        student.StudentId = (int)reader["StudentId"];
                         student.UserId = (int)reader["UserId"];
                         student.GuardianName = (string)reader["GuardianName"];
                         student.Phone = (string)reader["Phone"];
-                        student.NID = (string)reader["NID"];
-                        student.DoB = (DateTime)reader["DoB"];
+                        student.NationalIdentity = (string)reader["NationalIdentity"];
+                        student.DateOfBirth = (DateTime)reader["DateOfBirth"];
                         student.FirstName = (string)reader["FirstName"];
                         student.LastName = (string)reader["LastName"];
                         student.Status = (Status)reader["Status"];
 
                     }
                 }
+                conn.Close();
             }
             return student;
         }
-
-        public Student Find(int id)
+        public Student Find(int studentId)
         {
             throw new NotImplementedException();
 
         }
-
-        public Status GetStatus(int id)
+        public Status GetEnrollmentStatus(int studentId)
         {
             return (Status)1;
         }
@@ -60,32 +55,30 @@ namespace Repositories
             throw new NotImplementedException();
 
         }
-
         public bool DuplicateExist(Student student)
         {
             using (SqlConnection conn = CreateConnection())
             {
+
                 using (SqlCommand cmd = CreateCommand(conn,
-                    $"SELECT * FROM Student s " +
-                    $"INNER JOIN Users u " +
-                    $"ON s.UserId = u.Id " +
-                    $"WHERE u.Role = 2 AND (s.NID = @NID " +
-                    $"OR s.Phone = @Phone " +
-                    $"OR u.Email = @Email)"))
+                    @"SELECT * FROM Student s INNER JOIN Users u
+                    ON s.UserId = u.Id 
+                    WHERE u.Role = 2 AND (s.NationalIdentity = @NationalIdentity 
+                    OR s.Phone = @Phone
+                    OR u.Email = @Email)"))
                 {
                     cmd.Parameters.AddWithValue("@Phone", student.Phone);
                     cmd.Parameters.AddWithValue("@Email", student.Email);
-                    cmd.Parameters.AddWithValue("@NID", student.NID);
+                    cmd.Parameters.AddWithValue("@NationalIdentity", student.NationalIdentity);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     return reader.HasRows;
-                    
+
                 }
 
             }
 
         }
-
         public int Insert(Student student)
         {
             if (DuplicateExist(student)) throw new Exception("Student already enrolled, duplicate violation");
@@ -93,16 +86,16 @@ namespace Repositories
             using (SqlConnection conn = CreateConnection())
             {
                 using (SqlCommand cmd = CreateCommand(conn,
-                    $"INSERT INTO [Student](UserId,FirstName,LastName,Address,Phone,NID,DoB,GuardianName, Status) VALUES (" +
-                    $"@UserId,@FirstName,@LastName,@Address,@Phone,@NID,@DoB,@GuardianName,@Status); SELECT SCOPE_IDENTITY();"))
+                    @"INSERT INTO [Student](UserId,FirstName,LastName,Address,Phone,NationalIdentity,DateOfBirth,GuardianName, Status) VALUES (
+                    @UserId,@FirstName,@LastName,@Address,@Phone,@NationalIdentity,@DateOfBirth,@GuardianName,@Status); SELECT SCOPE_IDENTITY();"))
                 {
                     cmd.Parameters.AddWithValue("@UserId", student.UserId);
                     cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
                     cmd.Parameters.AddWithValue("@LastName", student.LastName);
                     cmd.Parameters.AddWithValue("@Address", student.Address);
                     cmd.Parameters.AddWithValue("@Phone", student.Phone);
-                    cmd.Parameters.AddWithValue("@NID", student.NID);
-                    cmd.Parameters.AddWithValue("@DoB", student.DoB);
+                    cmd.Parameters.AddWithValue("@NationalIdentity", student.NationalIdentity);
+                    cmd.Parameters.AddWithValue("@DateOfBirth", student.DateOfBirth);
                     cmd.Parameters.AddWithValue("@GuardianName", student.GuardianName);
                     cmd.Parameters.AddWithValue("@Status", (int)Status.Pending);
 
@@ -112,17 +105,13 @@ namespace Repositories
             }
 /*            throw new Exception("Could not register student, please try again.");
 */        }
-
-
-
-
         public List<Student> FetchAll()
         {
 
             List<Student> studentList = new List<Student>();
 
             using (SqlConnection conn = CreateConnection())
-            {//specify clumns
+            {
                 using (SqlCommand cmd = CreateCommand(conn, "SELECT s.*, r.SubjectId,r.Marks,u.Email, r.Id AS ResultId FROM Student s INNER JOIN Result r ON s.Id = r.StudentId INNER JOIN Users u ON u.Id = s.UserId"))
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -131,14 +120,14 @@ namespace Repositories
                         List<Result> resultList = new List<Result>();
                         Result result = new Result()
                         {
-                            StudentId = (int)reader["Id"],
+                            StudentId = (int)reader["StudentId"],
                             Marks = (int)reader["Marks"],
                             Id = (int)reader["ResultId"]
 
                         };
                         resultList.Add(result);
 
-                        var foundStudent = studentList.FirstOrDefault(student => student.Id == (int)reader["Id"]);
+                        var foundStudent = studentList.FirstOrDefault(student => student.StudentId == (int)reader["Id"]);
 
                         if (foundStudent != null)
                         {
@@ -148,30 +137,24 @@ namespace Repositories
                         {
                             studentList.Add(new Student()
                             {
-
                                 Results = resultList,
-                                Id = (int)reader["Id"],
+                                StudentId = (int)reader["Id"],
                                 UserId = (int)reader["UserId"],
                                 GuardianName = (string)reader["GuardianName"],
                                 Phone = (string)reader["Phone"],
                                 Email = (string)reader["Email"],
                                 Address = (string)reader["Address"],
-                                NID = (string)reader["NID"],
-                                DoB = (DateTime)reader["DoB"],
+                                NationalIdentity = (string)reader["NID"],
+                                DateOfBirth = (DateTime)reader["DoB"],
                                 FirstName = (string)reader["FirstName"],
                                 LastName = (string)reader["LastName"],
                                 Status = (Status)reader["Status"]
-
-
                             });
                         }
-
                     }
                 }
                 return studentList;
-
             }
-
         }
     }
 }
