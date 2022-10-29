@@ -9,6 +9,7 @@ namespace Models
     {
         User = 0,
         Admin = 1,
-        Enrolled = 2,
+   
+
     }
 }

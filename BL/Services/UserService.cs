@@ -10,23 +10,28 @@ namespace Services
     public class UserService
     {
         private readonly UserRepository _repo;
+        private readonly StudentRepository _studentRepo;
         public UserService(UserRepository users)
         {
             _repo = users;
+            _studentRepo = new StudentRepository();
         }
         public User Register(User user)
         {
             var hashedPassword = Crypto.HashPassword(user.Password);
             user.Password = hashedPassword;
             user.Role = Role.User;
-            switch (IsExist(user.Email))
+            switch (IsEmailUsed(user.Email))
             {
                 case true: throw new Exception("User already exist, please log in");
                 case false: _repo.Insert(user); break;
             }
             return user;
         }
-        public bool IsExist(string email) => _repo.Find(email).Email != null ? true : false;
+        public bool IsEmailUsed(string email) => _repo.Find(email).Email != null ? true : false;
+
+        public bool IsUserEnrolled(int userId) => _studentRepo.IsUserEnrolled(userId);
+      
     
         public User Login(User user)
         {
@@ -43,7 +48,7 @@ namespace Services
         private void SetCookie(User user)
         {
             int timeout = user.RememberMe ? 300 : 1;
-            var ticket = new FormsAuthenticationTicket(user.Id.ToString(), user.RememberMe, timeout);
+            var ticket = new FormsAuthenticationTicket(user.UserId.ToString(), user.RememberMe, timeout);
             string encrypted = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
             cookie.Expires = DateTime.Now.AddMinutes(timeout);

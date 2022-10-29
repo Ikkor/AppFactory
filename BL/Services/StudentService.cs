@@ -23,7 +23,7 @@ namespace Services
         private readonly IStudentRepository _repo;
         private readonly IUserRepository _userRepo;
         private readonly IResultRepository<Result> _resultRepo;
-        private int _minimumMarks = 10;
+        private const int _minimumMarks = 10;
 
         public StudentService(IStudentRepository students)
         {

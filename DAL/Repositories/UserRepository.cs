@@ -14,7 +14,7 @@ namespace Repositories
     public interface IUserRepository:IRepository<User>
     {
        User Find (string email);
-       int EnrollUser(int id);
+       int EnrollUser(int userId);
 
        
     }
@@ -24,18 +24,18 @@ namespace Repositories
 
       
 
-        public User Find(string email)
+        public User Find(string email) 
         {
             User userModel = new User();
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, "select * from Users where Email = @Email"))
+                using (SqlCommand cmd = CreateCommand(conn, "select top 1 UserId,Email,Password,Role from Users where Email = @Email"))
                 {
                     cmd.Parameters.AddWithValue("@Email", email);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        userModel.Id = (int)reader["Id"];
+                        userModel.UserId = (int)reader["UserId"];
                         userModel.Email = (string)reader["Email"];
                         userModel.Password = (string)reader["Password"];
                         userModel.Role = (Role)reader["Role"];
@@ -64,7 +64,7 @@ namespace Repositories
             throw new Exception("Could not register user, please try again.");
 
         }
-        public User Find(int Id)
+        public User Find(int userId)
         {
 
             throw new NotImplementedException();
@@ -78,13 +78,13 @@ namespace Repositories
 
         }
 
-        public int EnrollUser(int id)
+        public int EnrollUser(int userId)
         {
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, $"UPDATE Users set Role = 2 WHERE Id = @Id"))
+                using (SqlCommand cmd = CreateCommand(conn, $"UPDATE Users set Role = 2 WHERE UserId = @UserId"))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.Parameters.AddWithValue("@UserId", userId);
                     conn.Close();
                     return cmd.ExecuteReader().RecordsAffected;
                 }

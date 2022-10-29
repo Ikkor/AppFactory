@@ -9,6 +9,8 @@ namespace Repositories
     public interface IStudentRepository : IRepository<Student>
     {
         Status GetEnrollmentStatus(int studentId);
+        bool IsUserEnrolled(int userId);
+        Student Find(string email);
     }
     public class StudentRepository : SqlHelper, IStudentRepository
     {
@@ -17,7 +19,7 @@ namespace Repositories
             Student student = new Student();
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, "select s.* FROM Student s, Users u WHERE s.UserId = u.Id AND u.Email = @Email"))
+                using (SqlCommand cmd = CreateCommand(conn, @"select s.StudentId,s.UserId,s.GuardianName,s.Phone,s.NationalIdentity,s.DateOfBirth,s.FirstName,s.LastName,s.Status FROM Student s, Users u WHERE s.UserId = u.Id AND u.Email = @Email"))
                 {
                     cmd.Parameters.AddWithValue("@Email", email);
 
@@ -40,6 +42,26 @@ namespace Repositories
             }
             return student;
         }
+
+
+        public bool IsUserEnrolled(int userId)
+        {
+            using (SqlConnection conn = CreateConnection())
+            {
+
+                using (SqlCommand cmd = CreateCommand(conn,
+                    @"select 1 from Student where UserId=@UserId"))
+                {
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    return reader.HasRows;
+
+                }
+
+            }
+        }
         public Student Find(int studentId)
         {
             throw new NotImplementedException();
@@ -47,7 +69,24 @@ namespace Repositories
         }
         public Status GetEnrollmentStatus(int studentId)
         {
-            return (Status)1;
+
+            using (SqlConnection conn = CreateConnection())
+            {
+                using (SqlCommand cmd = CreateCommand(conn, @"select top 1 status from student where StudentId = @StudentId"))
+                {
+                    cmd.Parameters.AddWithValue("@StudentId", studentId);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    conn.Close();
+
+                    while (reader.Read())
+                    {
+                        return (Status)reader["Status"];
+
+                    }
+                }
+            }
+            throw new Exception("Student not found");
         }
 
         public int Update(Student student)
@@ -73,11 +112,8 @@ namespace Repositories
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     return reader.HasRows;
-
                 }
-
             }
-
         }
         public int Insert(Student student)
         {
@@ -103,8 +139,8 @@ namespace Repositories
                 }
 
             }
-/*            throw new Exception("Could not register student, please try again.");
-*/        }
+   
+        }
         public List<Student> FetchAll()
         {
 
@@ -112,7 +148,10 @@ namespace Repositories
 
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, "SELECT s.*, r.SubjectId,r.Marks,u.Email, r.Id AS ResultId FROM Student s INNER JOIN Result r ON s.Id = r.StudentId INNER JOIN Users u ON u.Id = s.UserId"))
+                using (SqlCommand cmd = CreateCommand(conn, @"SELECT s.StudentId,s.UserId,s.GuardianName,s.s.Phone,s.Email,s.Address,s.NationalIdentity,s.FirstName,s.LastName,s.Status, r.SubjectId,r.Marks,u.Email, r.Id
+                                                            AS ResultId FROM Student s 
+                                                            INNER JOIN Result r ON s.UserId = r.StudentId 
+                                                            INNER JOIN Users u ON u.UserId = s.UserId"))
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -134,18 +173,18 @@ namespace Repositories
                             foundStudent.Results.Add(result);
                         }
                         else
-                        {
+                        { 
                             studentList.Add(new Student()
                             {
                                 Results = resultList,
-                                StudentId = (int)reader["Id"],
+                                StudentId = (int)reader["StudentId"],
                                 UserId = (int)reader["UserId"],
                                 GuardianName = (string)reader["GuardianName"],
                                 Phone = (string)reader["Phone"],
                                 Email = (string)reader["Email"],
                                 Address = (string)reader["Address"],
-                                NationalIdentity = (string)reader["NID"],
-                                DateOfBirth = (DateTime)reader["DoB"],
+                                NationalIdentity = (string)reader["NationalIdentity"],
+                                DateOfBirth = (DateTime)reader["DateOfBirth"],
                                 FirstName = (string)reader["FirstName"],
                                 LastName = (string)reader["LastName"],
                                 Status = (Status)reader["Status"]

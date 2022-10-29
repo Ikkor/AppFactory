@@ -13,9 +13,9 @@
 
 function register() {
 
-    var Email = document.getElementById("email").value;
-    var Password = document.getElementById("password").value;
-    var _confirmPassword = document.getElementById("confirmPassword").value;
+    var Email = $("email").val();
+    var Password = $("password").val();
+    var _confirmPassword = $("confirmPassword").val();
 
     if (Password!=_confirmPassword) {
         toastr.error('Password does not match.');

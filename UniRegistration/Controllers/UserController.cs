@@ -19,7 +19,9 @@ namespace UniRegistration.Controllers
 
         public ActionResult Index()
         {
-            return RedirectToAction("Login", "User");
+            if (Session["Enrolled"]!=null)
+                return RedirectToAction("Index", "Student");
+            return RedirectToAction("Register", "Student");
 
         }
 
@@ -50,10 +52,6 @@ namespace UniRegistration.Controllers
             return Json(new { url = Url.Action("Login", "User") });
         }
 
-
-
-
-
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
@@ -61,36 +59,48 @@ namespace UniRegistration.Controllers
             return RedirectToAction("Login","User");
         }
 
-
-        [HttpPost]
-        public JsonResult Login(User user)
-        {
-            User loggedUser = _service.Login(user);
-            string url = null;
-            if (loggedUser != null)
-            {
-                this.Session["Id"] = (int)loggedUser.Id;
-                this.Session["Role"] = loggedUser.Role;
-                this.Session["Email"] = loggedUser.Email;
-                switch (loggedUser.Role)
-                {
-                    case Role.Admin: url = "/Admin"; break;
-                    case Role.User: url = "/Home"; break;
-                    case Role.Enrolled: url = Url.Action("Index", "Student"); break;
-
-                }
-            }
-
-            return Json(new { url = url });
-
-
-        }
-
         public ActionResult Login()
         {
             return View();
         }
 
+
+        [HttpPost]
+        public JsonResult Login(User user)
+        {
+            User loggedUser = _service.Login(user);
+
+            string url = null;
+            if (loggedUser != null)
+            {
+                SetUserSessions(loggedUser);
+                url = RouteUserByRole(loggedUser.Role);
+ 
+            }
+            return Json(new { url = url });
+        }
+
+        private string RouteUserByRole(Role role)
+        {
+            switch (role)
+            {
+                case Role.Admin: return Url.Action("Index", "Admin");
+                case Role.User: return Url.Action("Index", "User");                  
+            }
+            return null;
+        }
+
+
+
+        private bool SetUserSessions(User user)
+        {
+            this.Session["UserId"] = (int)user.UserId;
+            this.Session["Role"] = user.Role;
+            this.Session["Email"] = user.Email;
+            if (_service.IsUserEnrolled((int)Session["UserId"]))
+                this.Session["Enrolled"] = true;
+            return true;
+        }
 
     }
 }

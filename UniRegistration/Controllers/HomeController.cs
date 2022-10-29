@@ -18,9 +18,8 @@ namespace UniRegistration.Controllers
             }
             switch (Session["Role"])
             {
-                case Role.Admin: return RedirectToAction("Index", "Admin");
-                case Role.Enrolled: return RedirectToAction("Index", "Student");
-                case Role.User: return RedirectToAction("Register", "Student");
+               case Role.Admin: return RedirectToAction("Index", "Admin");
+               case Role.User: return RedirectToAction("Index", "User");
             }
             return View();
         }
