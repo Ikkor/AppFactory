@@ -50,7 +50,7 @@ namespace Repositories
         {
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, $"insert into [Users](Email,Password,Role) values(@Email,@Password,@Role)"))
+                using (SqlCommand cmd = CreateCommand(conn, @"insert into [Users](Email,Password,Role) values(@Email,@Password,@Role)"))
                 {
                     cmd.Parameters.AddWithValue("@Email", user.Email);
                     cmd.Parameters.AddWithValue("@Password", user.Password);

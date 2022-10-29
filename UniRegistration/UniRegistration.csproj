@@ -194,11 +194,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BL\BusinessLayer.csproj">
+    <ProjectReference Include="..\BusinessLayer\BusinessLayer.csproj">
       <Project>{96ca687a-b32a-43e0-8e06-17de6b7394db}</Project>
       <Name>BusinessLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\DataAccessLayer.csproj">
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
       <Project>{cdb01bb5-8f32-45b0-a746-7d5bd9c52c21}</Project>
       <Name>DataAccessLayer</Name>
     </ProjectReference>

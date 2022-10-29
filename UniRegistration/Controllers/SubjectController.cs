@@ -16,7 +16,6 @@ namespace Controllers
     {
         private SubjectService _service = new SubjectService(new SubjectRepository());
 
-        // GET: Subject
         public ActionResult Index()
         {
             return View();
