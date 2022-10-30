@@ -8,7 +8,7 @@ namespace Repositories
 {
     public interface IStudentRepository : IRepository<Student>
     {
-        Status GetEnrollmentStatus(int studentId);
+        Status GetEnrollmentStatus(int userId);
         bool IsUserEnrolled(int userId);
         Student Find(string email);
     }
@@ -67,23 +67,24 @@ namespace Repositories
             throw new NotImplementedException();
 
         }
-        public Status GetEnrollmentStatus(int studentId)
+        public Status GetEnrollmentStatus(int userId)
         {
 
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, @"select top 1 status from student where StudentId = @StudentId"))
+                using (SqlCommand cmd = CreateCommand(conn, @"select top 1 status from student where UserId = @UserId"))
                 {
-                    cmd.Parameters.AddWithValue("@StudentId", studentId);
+                    cmd.Parameters.AddWithValue("@UserId", userId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
-                    conn.Close();
+                    
 
                     while (reader.Read())
                     {
                         return (Status)reader["Status"];
 
                     }
+                    conn.Close();
                 }
             }
             throw new Exception("Student not found");
@@ -101,8 +102,8 @@ namespace Repositories
 
                 using (SqlCommand cmd = CreateCommand(conn,
                     @"SELECT * FROM Student s INNER JOIN Users u
-                    ON s.UserId = u.Id 
-                    WHERE u.Role = 2 AND (s.NationalIdentity = @NationalIdentity 
+                    ON s.UserId = u.UserId 
+                    WHERE (s.NationalIdentity = @NationalIdentity 
                     OR s.Phone = @Phone
                     OR u.Email = @Email)"))
                 {
@@ -134,8 +135,10 @@ namespace Repositories
                     cmd.Parameters.AddWithValue("@DateOfBirth", student.DateOfBirth);
                     cmd.Parameters.AddWithValue("@GuardianName", student.GuardianName);
                     cmd.Parameters.AddWithValue("@Status", (int)Status.Pending);
-
-                    return Convert.ToInt32(cmd.ExecuteScalar());
+                    
+                    int insertedStudentId = Convert.ToInt32(cmd.ExecuteScalar());
+/*                    conn.Close();
+*/                  return insertedStudentId;
                 }
 
             }
@@ -166,7 +169,7 @@ namespace Repositories
                         };
                         resultList.Add(result);
 
-                        var foundStudent = studentList.FirstOrDefault(student => student.StudentId == (int)reader["Id"]);
+                        var foundStudent = studentList.FirstOrDefault(student => student.StudentId == (int)reader["StudentId"]);
 
                         if (foundStudent != null)
                         {

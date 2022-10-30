@@ -6,35 +6,53 @@ using System.Linq;
 using System.Web;
 using Common;
 using System.Data;
+using System.Configuration;
 
 namespace Repositories
 {
     public interface IResultRepository<T>
     {
-        int Insert(List<Result> resultList, int studentId);   
+        bool Insert(List<Result> resultList, int studentId);
+
     }
-    public class ResultRepository:SqlHelper,IResultRepository<Result>
+    public class ResultRepository : SqlHelper, IResultRepository<Result>
     {
-        public int Insert(List<Result> resultList, int studentId)
+
+
+        public bool Insert(List<Result> resultList, int studentId)
         {
-            int rowsAffected = 0;
-            using (SqlConnection conn = CreateConnection())
+
+            DataTable resultTable = new DataTable();
+            resultTable.Columns.Add(new DataColumn("SubjectId", typeof(Int32)));
+            resultTable.Columns.Add(new DataColumn("StudentId", typeof(Int32)));
+            resultTable.Columns.Add(new DataColumn("Marks", typeof(Int32)));
+            foreach (Result result in resultList)
             {
-                using (SqlCommand cmd = CreateCommand(conn, $"insert into [Result](SubjectId,StudentId,Marks) values(@SubjectId,@StudentId,@Marks)"))
+                DataRow dr = resultTable.NewRow();
+                dr["SubjectId"] = result.SubjectId;
+                dr["StudentId"] = studentId;
+                dr["Marks"] = result.Marks;
+                resultTable.Rows.Add(dr);
+            }
+
+            if (resultTable.Rows.Count > 0)
+            {
+                using (SqlConnection conn = CreateConnection())
                 {
-                    cmd.Parameters.AddWithValue("@SubjectId", SqlDbType.Int);
-                    cmd.Parameters.AddWithValue("@StudentId", studentId);
-                    cmd.Parameters.AddWithValue("@Marks", SqlDbType.Int);
-                    foreach(Result result in resultList)
+                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(conn))
                     {
-                        cmd.Parameters["@SubjectId"].Value = result.SubjectId;
-                        cmd.Parameters["@Marks"].Value = result.Marks;
-                       rowsAffected =  cmd.ExecuteNonQuery();
+                        sqlBulkCopy.DestinationTableName = "dbo.Result";
+
+                        sqlBulkCopy.ColumnMappings.Add("SubjectId", "SubjectId");
+                        sqlBulkCopy.ColumnMappings.Add("StudentId", "StudentId");
+                        sqlBulkCopy.ColumnMappings.Add("Marks", "Marks");
+                        sqlBulkCopy.WriteToServer(resultTable);
+                        conn.Close();
                     }
                 }
-                conn.Close();
             }
-            return rowsAffected;
+            return true;
+
         }
     }
 }

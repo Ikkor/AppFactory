@@ -31,29 +31,25 @@ namespace Services
             _resultRepo = new ResultRepository();
             _userRepo = new UserRepository(); 
         }
-        public Status GetEnrollmentStatus(int studentId)
+        public Status GetEnrollmentStatus(int userId)
         {
-            return _repo.GetEnrollmentStatus(studentId); 
+            return _repo.GetEnrollmentStatus(userId); 
         }
         public Student Register(Student student)
         {
-            student.TotalMarks = student.Results.Sum(result => result.Marks);
-
+            // student.TotalMarks = student.Results.Sum(result => result.Marks);
+            var x = student.TotalMarks;
             if (student.TotalMarks < _minimumMarks)
                 throw new Exception("Needs minimum of 10 marks");
             
             int studentId = _repo.Insert(student);
             _resultRepo.Insert(student.Results, studentId);
-            _userRepo.EnrollUser(student.UserId);
             return student;
         }
         public List<Student> AllStudentMarks()
         {
            List<Student>studentList = _repo.FetchAll();
-            foreach(Student student in studentList)
-            {
-                student.TotalMarks = student.Results.Sum(result => result.Marks);
-            }
+    
             return studentList;
         }
     }

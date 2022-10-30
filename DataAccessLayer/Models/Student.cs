@@ -18,7 +18,12 @@ namespace Models
         public string NationalIdentity { get; set; }
         public string Address { get; set; }
         public Status Status { get; set; }
-        public int TotalMarks { get; set; }
+        public int TotalMarks { get
+            {
+                return this.Results.Sum(result => result.Marks); 
+            }
+
+            }
         public DateTime DateOfBirth { get; set; }
         public List<Result> Results { get; set; }
     }

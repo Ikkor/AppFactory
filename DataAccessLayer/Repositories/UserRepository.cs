@@ -14,7 +14,6 @@ namespace Repositories
     public interface IUserRepository:IRepository<User>
     {
        User Find (string email);
-       int EnrollUser(int userId);
 
        
     }
@@ -78,20 +77,7 @@ namespace Repositories
 
         }
 
-        public int EnrollUser(int userId)
-        {
-            using (SqlConnection conn = CreateConnection())
-            {
-                using (SqlCommand cmd = CreateCommand(conn, $"UPDATE Users set Role = 2 WHERE UserId = @UserId"))
-                {
-                    cmd.Parameters.AddWithValue("@UserId", userId);
-                    conn.Close();
-                    return cmd.ExecuteReader().RecordsAffected;
-                }
 
-            }
-            throw new Exception("Could not enroll user, please try again.");
-        }
 
         public int Update(User user)
         {

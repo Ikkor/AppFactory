@@ -3,11 +3,20 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Security;
 using Models;
+using ViewModels;
 using Repositories;
 
 namespace Services
 {
-    public class UserService
+    public interface IUserService
+    {
+        User Register(User user);
+        bool IsEmailUsed(string email);
+        bool IsUserEnrolled(int userId);
+        User Login(User user);
+
+    }
+    public class UserService:IUserService
     {
         private readonly UserRepository _repo;
         private readonly StudentRepository _studentRepo;
@@ -28,6 +37,10 @@ namespace Services
             }
             return user;
         }
+
+
+
+
         public bool IsEmailUsed(string email) => _repo.Find(email).Email != null ? true : false;
 
         public bool IsUserEnrolled(int userId) => _studentRepo.IsUserEnrolled(userId);
@@ -40,8 +53,8 @@ namespace Services
             if (user.Email == null) throw new Exception("Invalid credentials");
             if (Crypto.VerifyHashedPassword(found.Password, user.Password))
             {
-                if (found.Role != Role.Admin) SetCookie(user);
-                return found;
+/*                if (found.Role != Role.Admin) SetCookie(user,found.UserId);
+*/                return found;
             }
             return null;
         }

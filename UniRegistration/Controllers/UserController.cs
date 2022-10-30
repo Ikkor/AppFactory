@@ -7,6 +7,7 @@ using Repositories;
 using Services;
 using System.Web.Security;
 using Models;
+using ViewModels;
 using System.Diagnostics;
 using System.Security.Policy;
 
@@ -56,6 +57,7 @@ namespace UniRegistration.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Clear();
+            Session.Abandon();
             return RedirectToAction("Login","User");
         }
 
@@ -63,6 +65,8 @@ namespace UniRegistration.Controllers
         {
             return View();
         }
+
+
 
 
         [HttpPost]

@@ -55,13 +55,13 @@ function buildGradesDropdown(selected, container, subjectList) {
 
 function register() {
 
-    var FirstName = document.getElementById("fname").value;
-    var LastName = document.getElementById("lname").value;
-    var NID = document.getElementById("NID").value;
-    var DoB = document.getElementById("date").value;
-    var GuardianName = document.getElementById("guardian").value;
-    var Phone = document.getElementById("phone").value;
-    var Address = document.getElementById("address").value;
+    var FirstName = $("#FirstName").val();
+    var LastName = $("#LastName").val();
+    var NationalIdentity = $("#NationalIdentity").val();
+    var DateOfBirth = new Date($("#DateOfBirth").val()).toISOString();
+    var GuardianName = $("#GuardianName").val();
+    var Phone = $("#Phone").val();
+    var Address = $("#Address").val();
     var _resultvalues = {};
    
     $(".result_select").each(function () {
@@ -70,7 +70,7 @@ function register() {
 
     var Results = buildResultJSON(_resultvalues);
 
-    var studentObj = { FirstName, LastName, NID, DoB, Address, GuardianName, Phone, Results };
+    var studentObj = { FirstName, LastName, NationalIdentity, DateOfBirth, Address, GuardianName, Phone, Results };
 
 
 

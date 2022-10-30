@@ -4,6 +4,7 @@
 
 <html>
 <head>
+    <link rel="stylesheet" href="~/Content/studentindex.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script type="text/javascript" src="~/Scripts/controllerbridge.js"></script>
@@ -13,11 +14,22 @@
 
 </head>
 <body>
-    <div>
+    <a style="float:right" href="/User/Logout">Logout</a>
 
-        <h1>Enrollment status: </h1>
-        <h2> -</h2>
+    <div class="page-wrapper">
+        <div class="wrapper">
+            <div class="card card-4">
+                <div class="card-body">
+                    <h2 class="title">You've successfully enrolled at SkillsForce University!</h2>
+                    <h4 id="status"></h4>
+                    <h4>- Edit my enrollment information  </h4>
 
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
 </body>
 </html>

@@ -66,6 +66,8 @@
     <Compile Include="Services\SubjectService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\StudentEnrollViewModel.cs" />
+    <Compile Include="ViewModels\UserRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

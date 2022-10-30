@@ -23,6 +23,9 @@ namespace UniRegistration.Controllers
         [HttpGet]
         public ActionResult Register()
         {
+            if (Session["UserId"] == null) return RedirectToAction("Login", "User");
+            
+
             return View();
         }
         [HttpPost]
@@ -43,9 +46,10 @@ namespace UniRegistration.Controllers
         [HttpPost]
         public JsonResult GetEnrollmentStatus()
         {
-            Status _status = (Status)_service.GetEnrollmentStatus((int)Session["Id"]);
-            string _statusStr = JsonConvert.SerializeObject(_status);
-            return Json(new { status = _status });
+            Status _status = (Status)_service.GetEnrollmentStatus((int)Session["UserId"]);
+            string _statusStr = JsonConvert.SerializeObject(_status.ToString()); 
+
+            return Json(new { status = _statusStr });
         }
     }
 }
