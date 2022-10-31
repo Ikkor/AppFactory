@@ -143,6 +143,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -153,9 +154,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\enrollbg.jpg" />
+    <Content Include="Content\adminpage.css" />
     <Content Include="Content\bgart.png" />
     <Content Include="Content\enroll.css" />
+    <Content Include="Content\enrollbg.png" />
     <Content Include="Content\login.css" />
     <Content Include="Content\logo.png" />
     <Content Include="Content\studentindex.css" />

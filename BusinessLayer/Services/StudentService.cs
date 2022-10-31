@@ -13,7 +13,7 @@ namespace Services
     {
         Status GetEnrollmentStatus(int studentId);
         Student Register(Student student);
-        List<Student> AllStudentMarks();
+        List<Student> FetchStudentsResults();
 
     }
 
@@ -46,7 +46,7 @@ namespace Services
             _resultRepo.Insert(student.Results, studentId);
             return student;
         }
-        public List<Student> AllStudentMarks()
+        public List<Student> FetchStudentsResults()
         {
            List<Student>studentList = _repo.FetchAll();
     

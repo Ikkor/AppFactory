@@ -10,14 +10,13 @@
 
     <link rel="stylesheet" href="~/Content/enroll.css" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <script type="text/javascript" src="~/Scripts/controllerbridge.js"></script>
     <script type="text/javascript" src="~/Scripts/studentenroll.js"></script>
@@ -25,115 +24,80 @@
     <title>Sign Up #2</title>
 </head>
 
-
 <body>
+    <a href="/User/Logout" class="navItem">Logout</a>
+    <section id="registration-page">
 
-<div class="d-lg-flex half">
-    <div class="bg order-1 order-md-2" style="background-image: url('../Content/enrollbg.jpg');"></div>
+        <form onsubmit="register()" class="signup-form">
+            <div class="form-header">
+                <h1>Student Registration Form</h1>
+            </div>
+            <div class="form-body">
 
 
-    <div class="contents order-2 order-md-1">
+                <div class="row">
+                    <div class="input-group">
+                        <label>First name* </label>
+                        <input required id="FirstName" type="text">
+                    </div>
+                    <div class="input-group">
+                        <label>Last name*</label>
+                        <input required id="LastName" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Email* </label>
+                        <input disabled required  value ="test@gmail.com" id="Email" type="email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Address* </label>
+                        <input required id="Address" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>National Identity Card* </label>
+                        <input required id="NationalIdentity" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Guardian Name</label>
+                        <input id="GuardianName" type="text">
+                    </div>
+                </div>
 
-        <div class="container">
-            <a style="float:right" href="/User/Logout">Logout</a>
-            <div class="row align-items-center justify-content-center">
-                <div class="col-md-7 py-5">
-                    <h3>Student Enrollment Form</h3>
-                    <p class="mb-4">Apply to study with us today! </p>
-                    <form onsubmit="register()">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group first">
-                                    <label for="FirstName">First Name</label>
-                                    <input required type="text" class="form-control" placeholder="e.g. John" id="FirstName">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group first">
-                                    <label for="LastName">Last Name</label>
-                                    <input required type="text" class="form-control" placeholder="e.g. Smith" id="LastName">
-                                </div>
-                            </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Phone Number* </label>
+                        <input id="Phone" type="text">
+                    </div>
+                    <div class="input-group">
+                        <label>Date of Birth*</label>
+                        <input required max='2000-01-01' id="DateOfBirth" type="date">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <select required class="form-select selectpicker subject_select " multiple data-max-options="3">
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <div class="result_input">
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group first">
-                                    <label for="Email">Email Address</label>
-                                    <input disabled type="email" value="test@gmail.com" class="form-control" id="Email">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group first">
-                                    <label for="Address">Address</label>
-                                    <input type="text"  class="form-control" placeholder="e.g ebene cybercity" id="Address">
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                </div>
 
 
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group first">
-                                    <label for="NationalIdentity">National Identity Card Number</label>
-                                    <input required type="text" class="form-control" id="NationalIdentity">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group first">
-                                    <label for="Phone">Phone number</label>
-                                    <input required type="number" class="form-control" id="Phone">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group first">
-                                    <label for="date">Date of birth</label>
-                                    <input required max='2000-01-01' type="date" class="form-control" id="DateOfBirth">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group first">
-                                    <label for="GuardianName">Guardian Name</label>
-                                    <input type="text" class="form-control" id="GuardianName">
-                                </div>
-                            </div>
-                        </div>
-                        <h5>Provide your HSC results</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-
-                                <div class="form-group first">
-                                    <select required class="form-select selectpicker subject_select " multiple data-max-options="3">
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 result_input">
-
-
-
-                            </div>
-                        </div>
-                        <input type="submit" value="Register" class="btn px-5 btn-primary btnSubmit">
-
-                    </form>
+                <div class="form-footer">
+                    <input type="submit" value="Register" class="Submitbtn">
                 </div>
             </div>
-        </div>
-    </div>
-
-
-</div>
-
-
+        </form>
+    </section>
 </body>
-
 
 </html>

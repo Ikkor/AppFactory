@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Web;
 using System.Web.Mvc;
 using Models;
@@ -16,7 +17,8 @@ namespace UniRegistration.Controllers
 
         public ActionResult Index()
         {
-            
+            if (Session["UserId"] == null) return RedirectToAction("Login", "User");
+
             return View();
         }
 
@@ -50,6 +52,17 @@ namespace UniRegistration.Controllers
             string _statusStr = JsonConvert.SerializeObject(_status.ToString()); 
 
             return Json(new { status = _statusStr });
+        }
+
+        [HttpPost]
+        public JsonResult FetchStudentsResults()
+        {
+            List<Student> studentsList = _service.FetchStudentsResults();
+            string studentsListStr = JsonConvert.SerializeObject(studentsList);
+            return Json(new { studentList = studentsListStr });
+
+
+
         }
     }
 }

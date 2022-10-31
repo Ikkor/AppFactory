@@ -151,9 +151,9 @@ namespace Repositories
 
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, @"SELECT s.StudentId,s.UserId,s.GuardianName,s.s.Phone,s.Email,s.Address,s.NationalIdentity,s.FirstName,s.LastName,s.Status, r.SubjectId,r.Marks,u.Email, r.Id
+                using (SqlCommand cmd = CreateCommand(conn, @"SELECT s.StudentId,s.UserId,s.GuardianName,s.Phone,u.Email,s.Address,s.NationalIdentity,s.FirstName,s.LastName,s.Status, r.SubjectId,r.Marks,u.Email, r.Id
                                                             AS ResultId FROM Student s 
-                                                            INNER JOIN Result r ON s.UserId = r.StudentId 
+                                                            INNER JOIN Result r ON s.StudentId = r.StudentId 
                                                             INNER JOIN Users u ON u.UserId = s.UserId"))
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
