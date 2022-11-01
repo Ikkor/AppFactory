@@ -18,38 +18,37 @@ namespace Services
     }
 
 
-    public class StudentService:IStudentService
+    public class StudentService : IStudentService
     {
         private readonly IStudentRepository _repo;
         private readonly IUserRepository _userRepo;
         private readonly IResultRepository<Result> _resultRepo;
         private const int _minimumMarks = 10;
 
-        public StudentService(IStudentRepository students)
+        public StudentService(IStudentRepository students, IResultRepository<Result> result, IUserRepository user)
         {
             _repo = students;
-            _resultRepo = new ResultRepository();
-            _userRepo = new UserRepository(); 
+            _resultRepo = result;
+            _userRepo = user;
         }
         public Status GetEnrollmentStatus(int userId)
         {
-            return _repo.GetEnrollmentStatus(userId); 
+            return _repo.GetEnrollmentStatus(userId);
         }
         public Student Register(Student student)
         {
-            // student.TotalMarks = student.Results.Sum(result => result.Marks);
-            var x = student.TotalMarks;
+
             if (student.TotalMarks < _minimumMarks)
                 throw new Exception("Needs minimum of 10 marks");
-            
+
             int studentId = _repo.Insert(student);
             _resultRepo.Insert(student.Results, studentId);
             return student;
         }
         public List<Student> FetchStudentsResults()
         {
-           List<Student>studentList = _repo.FetchAll();
-    
+            List<Student> studentList = _repo.FetchAll();
+
             return studentList;
         }
     }

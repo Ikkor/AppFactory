@@ -166,6 +166,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\adminview.js" />
     <Content Include="Scripts\controllerbridge.js" />
     <Content Include="Scripts\studentenroll.js" />
     <Content Include="Scripts\studentindex.js" />

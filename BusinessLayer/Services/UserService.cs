@@ -10,35 +10,35 @@ namespace Services
 {
     public interface IUserService
     {
-        User Register(User user);
+        bool Register(string email, string passworrd);
         bool IsEmailUsed(string email);
         bool IsUserEnrolled(int userId);
-        User Login(User user);
-
+        User Authenticate(string email, string password);
     }
     public class UserService:IUserService
     {
-        private readonly UserRepository _repo;
-        private readonly StudentRepository _studentRepo;
-        public UserService(UserRepository users)
+        private readonly IUserRepository _repo;
+        private readonly IStudentRepository _studentRepo;
+        public UserService(IUserRepository user, IStudentRepository student)
         {
-            _repo = users;
-            _studentRepo = new StudentRepository();
+            _repo = user;
+            _studentRepo = student;
         }
-        public User Register(User user)
+        public bool Register(string email, string password)
         {
-            var hashedPassword = Crypto.HashPassword(user.Password);
-            user.Password = hashedPassword;
+            User user = new User();
+
+            user.Password = Crypto.HashPassword(password);
             user.Role = Role.User;
+            user.Email = email;
+            user.IsActive = true;
             switch (IsEmailUsed(user.Email))
             {
-                case true: throw new Exception("User already exist, please log in");
+                case true: return false;
                 case false: _repo.Insert(user); break;
             }
-            return user;
+            return true;
         }
-
-
 
 
         public bool IsEmailUsed(string email) => _repo.Find(email).Email != null ? true : false;
@@ -46,12 +46,13 @@ namespace Services
         public bool IsUserEnrolled(int userId) => _studentRepo.IsUserEnrolled(userId);
       
     
-        public User Login(User user)
+        public User Authenticate(string email, string password)
         {
-            if (user.Email == null && user.Password == null) throw new Exception("Please provide your login information");
-            User found = _repo.Find(user.Email);
-            if (user.Email == null) throw new Exception("Invalid credentials");
-            if (Crypto.VerifyHashedPassword(found.Password, user.Password))
+
+            if (email == null && password == null) throw new Exception("Please provide your login information");
+            User found = _repo.Find(email);
+            if (email == null) throw new Exception("Invalid credentials");
+            if (Crypto.VerifyHashedPassword(found.Password, password))
             {
 /*                if (found.Role != Role.Admin) SetCookie(user,found.UserId);
 */                return found;

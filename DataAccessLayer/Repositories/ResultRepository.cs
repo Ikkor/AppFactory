@@ -15,7 +15,7 @@ namespace Repositories
         bool Insert(List<Result> resultList, int studentId);
 
     }
-    public class ResultRepository : SqlHelper, IResultRepository<Result>
+    public class ResultRepository : ConnHelper, IResultRepository<Result>
     {
 
 

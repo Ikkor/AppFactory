@@ -18,7 +18,7 @@ namespace Repositories
        
     }
 
-    public class UserRepository : SqlHelper, IUserRepository
+    public class UserRepository : ConnHelper, IUserRepository
     {
 
       
@@ -49,13 +49,17 @@ namespace Repositories
         {
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, @"insert into [Users](Email,Password,Role) values(@Email,@Password,@Role)"))
+                using (SqlCommand cmd = CreateCommand(conn, @"insert into [Users](Email,Password,Role,IsActive) values(@Email,@Password,@Role,@IsActive)"))
                 {
                     cmd.Parameters.AddWithValue("@Email", user.Email);
                     cmd.Parameters.AddWithValue("@Password", user.Password);
                     cmd.Parameters.AddWithValue("@Role", user.Role);
+                    cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
+
+
+                    int rowsAffected =  cmd.ExecuteReader().RecordsAffected;
                     conn.Close();
-                    return cmd.ExecuteReader().RecordsAffected;
+                    return rowsAffected;
                 }
                 
 

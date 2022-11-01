@@ -1,4 +1,6 @@
 ﻿using Models;
+using Repositories;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,10 @@ namespace UniRegistration.Controllers
 {
     public class HomeController : Controller
     {
+
         public ActionResult Index()
         {
+
             if (Session["Email"] == null)
             {
                 return RedirectToAction("Login", "User");

@@ -1,28 +1,33 @@
-﻿using System.Configuration;
-using System.Data.SqlClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Common
 {
-    public class SqlHelper
+    internal static class SqlHelper
     {
-
-        private string _connString = ConfigurationManager.ConnectionStrings["myConnectionString"].ConnectionString;
-
-        protected SqlConnection CreateConnection()
-
+        public static string GetColumnNames(this Type type, string alias = null, HashSet<string> excludedProp = null)
         {
-            SqlConnection result = new SqlConnection(_connString);
-            result.Open();
-            return result;
-            
-        }
+            var props = type.GetProperties();
+            var cols = new List<string>();
 
-        protected SqlCommand CreateCommand(SqlConnection conn, string sql)
-        {
-            SqlCommand command = conn.CreateCommand();
-            
-            command.CommandText = sql;
-            return command;
+            foreach (var prop in props)
+            {
+                if (prop.CustomAttributes.Any(z => z.AttributeType == typeof(IgnoreMappingAttribute)))
+                    continue;
+                if (alias != null)
+                    cols.Add($"{alias}.{prop.Name}");
+                else
+                    cols.Add($"{prop.Name}");
+            }
+
+            return string.Join(" ,", cols);
         }
     }
+
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+    public class IgnoreMappingAttribute : Attribute { }
 }
+

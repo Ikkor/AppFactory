@@ -13,7 +13,12 @@ namespace UniRegistration.Controllers
 {
     public class StudentController : Controller
     {
-        private StudentService _service = new StudentService(new StudentRepository());
+        private readonly StudentService _service;
+
+        public StudentController(StudentService service)
+        {
+            _service = service;
+        }
 
         public ActionResult Index()
         {
@@ -59,9 +64,7 @@ namespace UniRegistration.Controllers
         {
             List<Student> studentsList = _service.FetchStudentsResults();
             string studentsListStr = JsonConvert.SerializeObject(studentsList);
-            return Json(new { studentList = studentsListStr });
-
-
+            return Json(studentsListStr);
 
         }
     }

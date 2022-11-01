@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ViewModels
 {
-    public class LoginViewModel
+    public class UserLoginViewModel
     {
         [DataType(DataType.EmailAddress)]
         [Required]

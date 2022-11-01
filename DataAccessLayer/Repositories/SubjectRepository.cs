@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace Repositories
 {
-    public class SubjectRepository : SqlHelper, IRepository<Subject>
+    public class SubjectRepository : ConnHelper, IRepository<Subject>
     {
         public Subject Find(int id)
         {

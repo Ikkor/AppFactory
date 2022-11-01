@@ -12,8 +12,22 @@ namespace Repositories
         bool IsUserEnrolled(int userId);
         Student Find(string email);
     }
-    public class StudentRepository : SqlHelper, IStudentRepository
+    public class StudentRepository : ConnHelper, IStudentRepository
     {
+        private string duplicateExistSql = @"SELECT 1 FROM Student s INNER JOIN Users u
+                    ON s.UserId = u.UserId 
+                    WHERE (s.NationalIdentity = @NationalIdentity 
+                    OR s.Phone = @Phone
+                    OR u.Email = @Email)";
+        private string fetchAllSql = @"SELECT s.StudentId,s.UserId,s.GuardianName,s.DateOfBirth,s.Phone,u.Email,s.Address,s.NationalIdentity,s.FirstName,s.LastName,s.Status, r.SubjectId,r.Marks,u.Email, r.Id
+                                                            AS ResultId FROM Student s 
+                                                            INNER JOIN Result r ON s.StudentId = r.StudentId 
+                                                            INNER JOIN Users u ON u.UserId = s.UserId";
+
+
+        public string testsql = $"{SqlHelper.GetColumnNames(typeof(Student))}";
+
+
         public Student Find(string email)
         {
             Student student = new Student();
@@ -77,7 +91,7 @@ namespace Repositories
                     cmd.Parameters.AddWithValue("@UserId", userId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
-                    
+
 
                     while (reader.Read())
                     {
@@ -100,12 +114,8 @@ namespace Repositories
             using (SqlConnection conn = CreateConnection())
             {
 
-                using (SqlCommand cmd = CreateCommand(conn,
-                    @"SELECT * FROM Student s INNER JOIN Users u
-                    ON s.UserId = u.UserId 
-                    WHERE (s.NationalIdentity = @NationalIdentity 
-                    OR s.Phone = @Phone
-                    OR u.Email = @Email)"))
+                using (SqlCommand cmd = CreateCommand(conn, duplicateExistSql
+                    ))
                 {
                     cmd.Parameters.AddWithValue("@Phone", student.Phone);
                     cmd.Parameters.AddWithValue("@Email", student.Email);
@@ -135,14 +145,15 @@ namespace Repositories
                     cmd.Parameters.AddWithValue("@DateOfBirth", student.DateOfBirth);
                     cmd.Parameters.AddWithValue("@GuardianName", student.GuardianName);
                     cmd.Parameters.AddWithValue("@Status", (int)Status.Pending);
-                    
+
                     int insertedStudentId = Convert.ToInt32(cmd.ExecuteScalar());
-/*                    conn.Close();
-*/                  return insertedStudentId;
+                    /*                    conn.Close();
+                    */
+                    return insertedStudentId;
                 }
 
             }
-   
+
         }
         public List<Student> FetchAll()
         {
@@ -151,10 +162,7 @@ namespace Repositories
 
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, @"SELECT s.StudentId,s.UserId,s.GuardianName,s.Phone,u.Email,s.Address,s.NationalIdentity,s.FirstName,s.LastName,s.Status, r.SubjectId,r.Marks,u.Email, r.Id
-                                                            AS ResultId FROM Student s 
-                                                            INNER JOIN Result r ON s.StudentId = r.StudentId 
-                                                            INNER JOIN Users u ON u.UserId = s.UserId"))
+                using (SqlCommand cmd = CreateCommand(conn, fetchAllSql))
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -176,7 +184,7 @@ namespace Repositories
                             foundStudent.Results.Add(result);
                         }
                         else
-                        { 
+                        {
                             studentList.Add(new Student()
                             {
                                 Results = resultList,

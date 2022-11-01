@@ -13,11 +13,11 @@
 
 function register() {
 
-    var Email = $("email").val();
-    var Password = $("password").val();
-    var _confirmPassword = $("confirmPassword").val();
+    var Email = $("#email").val();
+    var Password = $("#password").val();
+    var ConfirmPassword = $("#confirmPassword").val();
 
-    if (Password!=_confirmPassword) {
+    if (Password!=ConfirmPassword) {
         toastr.error('Password does not match.');
         return false;
     }
@@ -28,18 +28,28 @@ function register() {
 
     sendController(authObj, "/User/Register").then((response) => {
 
-        if (!response.error) {
+        if (response.url!=null) {
 
-            toastr.success("Registration Succeed. Redirecting to relevent page.....");
-            window.location = response.url;
+            toastr.success(
+                'Registration success.',
+                'Redirecting',
+                {
+                    timeOut: 20,
+                    fadeOut: 10,
+                    onHidden: function () {
+                        window.location = response.url;
+                    }
+                }
+            );
+            
         }
         else {
-            toastr.error('Unable to register user, ' + response.error);
+            toastr.error('Unable to register ');
             return false;
         }
     })
         .catch((error) => {
-            toastr.error('Unable to make request!!');
+            toastr.error('Unable to make request!');
         });
 
 

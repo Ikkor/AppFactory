@@ -22,7 +22,6 @@ namespace ViewModels
         [Compare("Password", ErrorMessage = "Confirm password doesn't match, Type again !")]
         [Required]
         public string ConfirmPassword { get; set; }
-        public Role Role { get; set; }
 
 
     }

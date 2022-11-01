@@ -15,8 +15,11 @@ namespace UniRegistration.Controllers
 {
     public class UserController : Controller
     {
-        private UserService _service = new UserService(new UserRepository());
-
+        private readonly UserService _service;
+        public UserController(UserService service)
+        {
+            _service = service;
+        }
 
         public ActionResult Index()
         {
@@ -35,23 +38,23 @@ namespace UniRegistration.Controllers
 
         }
 
+
         [HttpPost]
-        
-        public JsonResult Register(User user)
+
+        public JsonResult Register(UserRegisterViewModel user)
         {
+            string url = null;
 
-            try
+            if (_service.Register(user.Email,user.Password))
             {
-                _service.Register(user);
-                
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
+                url = Url.Action("Login", "User");
+            };
 
-            return Json(new { url = Url.Action("Login", "User") });
+    
+
+            return Json(new { url = url });
         }
+
 
         public ActionResult Logout()
         {
@@ -66,13 +69,10 @@ namespace UniRegistration.Controllers
             return View();
         }
 
-
-
-
         [HttpPost]
-        public JsonResult Login(User user)
+        public JsonResult Login(UserLoginViewModel user)
         {
-            User loggedUser = _service.Login(user);
+            User loggedUser = _service.Authenticate(user.Email,user.Password);
 
             string url = null;
             if (loggedUser != null)
