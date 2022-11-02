@@ -4,17 +4,22 @@ using System.Linq;
 using System.Web;
 using Models;
 using Repositories;
+using ViewModels;
 using Services;
+using Common;
 
 namespace Services
 {
 
     interface IStudentService
     {
-        Status GetEnrollmentStatus(int studentId);
-        Student Register(Student student);
+        EnrollmentStatus GetEnrollmentStatus(int studentId);
+        bool Register(Student student);
         List<Student> FetchStudentsResults();
 
+        Student GetStudent(int userId);
+
+        int GetStudentId(int UserId);
     }
 
 
@@ -31,25 +36,39 @@ namespace Services
             _resultRepo = result;
             _userRepo = user;
         }
-        public Status GetEnrollmentStatus(int userId)
+        public EnrollmentStatus GetEnrollmentStatus(int userId)
         {
             return _repo.GetEnrollmentStatus(userId);
         }
-        public Student Register(Student student)
+        public bool Register(Student student)
         {
-
             if (student.TotalMarks < _minimumMarks)
                 throw new Exception("Needs minimum of 10 marks");
 
             int studentId = _repo.Insert(student);
             _resultRepo.Insert(student.Results, studentId);
-            return student;
+            return true;
         }
+        public bool Update(Student student)
+        {
+            return _repo.Update(student);
+        }
+
         public List<Student> FetchStudentsResults()
         {
             List<Student> studentList = _repo.FetchAll();
+            studentList = studentList.OrderByDescending(student => student.TotalMarks).ToList();
 
             return studentList;
+        }
+        public Student GetStudent(int userId)
+        {
+            return _repo.Find(userId);
+        }
+
+        public int GetStudentId(int UserId)
+        {
+            return _repo.GetStudentId(UserId);
         }
     }
 }

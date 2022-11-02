@@ -10,6 +10,8 @@ namespace Repositories
 {
     public class SubjectRepository : ConnHelper, IRepository<Subject>
     {
+
+        private string FetchAllSql = $"select {SqlHelper.GetColumnNames(typeof(Subject))} from Subject";
         public Subject Find(int id)
         {
             throw new NotImplementedException();
@@ -22,7 +24,7 @@ namespace Repositories
         {
             throw new NotImplementedException();
         }
-        public int Update(Subject subject)
+        public bool Update(Subject subject)
         {
             throw new NotImplementedException();
         }
@@ -32,13 +34,13 @@ namespace Repositories
 
             using (SqlConnection conn = CreateConnection())
             {
-                using (SqlCommand cmd = CreateCommand(conn, "select * from Subject"))
+                using (SqlCommand cmd = CreateCommand(conn, FetchAllSql))
                 {
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         Subject subject = new Subject();
-                        subject.Id = (int)reader["Id"];
+                        subject.SubjectId = (int)(byte)reader["SubjectId"];
                         subject.SubjectName = (string)reader["SubjectName"];
                         subjectList.Add(subject);
                     }

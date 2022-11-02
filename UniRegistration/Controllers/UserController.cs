@@ -10,6 +10,7 @@ using Models;
 using ViewModels;
 using System.Diagnostics;
 using System.Security.Policy;
+using System.ComponentModel.DataAnnotations;
 
 namespace UniRegistration.Controllers
 {
@@ -23,10 +24,9 @@ namespace UniRegistration.Controllers
 
         public ActionResult Index()
         {
-            if (Session["Enrolled"]!=null)
+            if ((bool)Session["Enrolled"])
                 return RedirectToAction("Index", "Student");
             return RedirectToAction("Register", "Student");
-
         }
 
 
@@ -38,19 +38,16 @@ namespace UniRegistration.Controllers
 
         }
 
-
         [HttpPost]
 
         public JsonResult Register(UserRegisterViewModel user)
         {
             string url = null;
 
-            if (_service.Register(user.Email,user.Password))
+            if (_service.Register(user.Email, user.Password))
             {
                 url = Url.Action("Login", "User");
             };
-
-    
 
             return Json(new { url = url });
         }
@@ -61,7 +58,7 @@ namespace UniRegistration.Controllers
             FormsAuthentication.SignOut();
             Session.Clear();
             Session.Abandon();
-            return RedirectToAction("Login","User");
+            return RedirectToAction("Login", "User");
         }
 
         public ActionResult Login()
@@ -72,28 +69,29 @@ namespace UniRegistration.Controllers
         [HttpPost]
         public JsonResult Login(UserLoginViewModel user)
         {
-            User loggedUser = _service.Authenticate(user.Email,user.Password);
-
             string url = null;
+            User loggedUser;
+            try
+            {
+                loggedUser = _service.Authenticate(user.Email, user.Password);
+            }catch (Exception e)
+            {
+                return Json(new { url = url, error = e.Message });
+            }
+
             if (loggedUser != null)
             {
                 SetUserSessions(loggedUser);
-                url = RouteUserByRole(loggedUser.Role);
- 
+
+                url = Url.Action("Index", "Home");
             }
             return Json(new { url = url });
         }
 
-        private string RouteUserByRole(Role role)
+        public JsonResult CurrentEmailSession()
         {
-            switch (role)
-            {
-                case Role.Admin: return Url.Action("Index", "Admin");
-                case Role.User: return Url.Action("Index", "User");                  
-            }
-            return null;
+            return Json(new { email = Session["Email"] });
         }
-
 
 
         private bool SetUserSessions(User user)
@@ -103,6 +101,8 @@ namespace UniRegistration.Controllers
             this.Session["Email"] = user.Email;
             if (_service.IsUserEnrolled((int)Session["UserId"]))
                 this.Session["Enrolled"] = true;
+            else
+                this.Session["Enrolled"] = false;
             return true;
         }
 

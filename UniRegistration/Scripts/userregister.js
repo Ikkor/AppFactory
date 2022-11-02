@@ -7,10 +7,6 @@
 });
 
 
-
-
-
-
 function register() {
 
     var Email = $("#email").val();
@@ -22,7 +18,6 @@ function register() {
         return false;
     }
     
-
 
     var authObj = {Email,Password };
 

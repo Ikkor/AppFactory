@@ -8,6 +8,7 @@ using Models;
 using Newtonsoft.Json;
 using Repositories;
 using Services;
+using ViewModels;
 
 namespace UniRegistration.Controllers
 {
@@ -35,25 +36,51 @@ namespace UniRegistration.Controllers
 
             return View();
         }
+
         [HttpPost]
         public JsonResult Register(Student student)
         {
             student.UserId = (int)Session["UserId"];
             student.Email = (string)Session["Email"];
-            try
-            {
-                _service.Register(student);
-            }
-            catch (Exception e)
-            {
-                return Json(new { error = e.Message });
-            }
-            return Json(new { url = Url.Action("Index", "Student") });
+            string url = null;
+           
+            
+          if(_service.Register(student))
+                url = Url.Action("Index", "Student");
+            
+   
+            return Json(new { url = url });
+        }
+
+        public ActionResult Update()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult Update(Student student)
+        {
+            student.UserId = (int)Session["UserId"];
+            student.Email = (string)Session["Email"];
+            student.StudentId = _service.GetStudentId(student.UserId);
+            string url = null;
+
+            if (_service.Update(student))
+                url = Url.Action("Index", "Student");
+            return Json(new { url = url });
+        }
+
+        public JsonResult GetStudent()
+        {
+
+            var student = _service.GetStudent((int)Session["UserId"]);
+            var studentJson = JsonConvert.SerializeObject(student);
+            return Json(studentJson);
         }
         [HttpPost]
         public JsonResult GetEnrollmentStatus()
         {
-            Status _status = (Status)_service.GetEnrollmentStatus((int)Session["UserId"]);
+            EnrollmentStatus _status = (EnrollmentStatus)_service.GetEnrollmentStatus((int)Session["UserId"]);
             string _statusStr = JsonConvert.SerializeObject(_status.ToString()); 
 
             return Json(new { status = _statusStr });

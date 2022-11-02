@@ -14,7 +14,11 @@ html, body {
     top: 0;
     right: 0;
     position: absolute;
+  
+    margin: 5px;
 }
+
+
 
 
 #registration-page {

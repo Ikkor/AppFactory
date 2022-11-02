@@ -8,7 +8,7 @@ namespace Repositories
 
         T Find(int id);
        int Insert(T user);
-        int Update(T user);
+        bool Update(T user);
         List<T> FetchAll();
 
 

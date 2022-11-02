@@ -24,9 +24,16 @@ getController("/Subject/GetSubjects").then((response) => {
 })
 
 
+getController("/User/CurrentEmailSession").then((response) => {
+    $('#Email').val(response.email);
+    });
+
+
+
+
 function buildSubjectsDropdown(subjectList) {
     subjectList.forEach(subject => {
-        $('.selectpicker').append('<option name="' + subject.SubjectName + '"value=' + subject.Id + '>' + subject.SubjectName + '</option>');
+        $('.selectpicker').append('<option name="' + subject.SubjectName + '"value=' + subject.SubjectId + '>' + subject.SubjectName + '</option>');
     })
     $('.selectpicker').selectpicker('refresh');
 }
@@ -35,10 +42,10 @@ function buildGradesDropdown(selected, container, subjectList) {
     var innerHTML = "";
     selected.forEach(element => {
         console.log(element);
-        var subIndex = subjectList.findIndex(subject => subject.Id == element);
+        var subIndex = subjectList.findIndex(subject => subject.SubjectId == element);
         innerHTML += '<label for="result_select">' + subjectList[subIndex]["SubjectName"] + '</label>' +
 
-            '<select required id=' + subjectList[subIndex]["Id"] + ' class = "result_select">' +
+            '<select required id=' + subjectList[subIndex]["SubjectId"] + ' class = "result_select">' +
             '<option value="" selected disabled hidden>Grade</option>' +
             '<option value="10">A[10]</option>' +
             '<option value="8">B[8]</option>' +
@@ -76,14 +83,14 @@ function register() {
 
     sendController(studentObj, "/Student/Register").then((response) => {
 
-        if (!response.error) {
+        if (response.url!=null) {
 
             toastr.success("Registration Succeed. Redirecting to relevent page.....");
             window.location = response.url;
 
         }
         else {
-            toastr.error(response.error);
+            toastr.error("An error occured");
             return false;
         }
     })

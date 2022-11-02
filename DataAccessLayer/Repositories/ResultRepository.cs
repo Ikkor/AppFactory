@@ -39,7 +39,8 @@ namespace Repositories
             {
                 using (SqlConnection conn = CreateConnection())
                 {
-                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(conn))
+                    SqlTransaction transaction = conn.BeginTransaction();
+                    using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(conn,SqlBulkCopyOptions.FireTriggers,transaction))
                     {
                         sqlBulkCopy.DestinationTableName = "dbo.Result";
 
@@ -47,6 +48,7 @@ namespace Repositories
                         sqlBulkCopy.ColumnMappings.Add("StudentId", "StudentId");
                         sqlBulkCopy.ColumnMappings.Add("Marks", "Marks");
                         sqlBulkCopy.WriteToServer(resultTable);
+                        transaction.Commit();
                         conn.Close();
                     }
                 }
@@ -54,5 +56,6 @@ namespace Repositories
             return true;
 
         }
+
     }
 }

@@ -7,8 +7,8 @@ namespace Models
 {
     public enum Role
     {
-        User = 0,
-        Admin = 1,
+      Admin = 0,
+      User = 1
    
 
     }

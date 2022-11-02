@@ -13,9 +13,8 @@
 function logIn() {
    var Email = document.getElementById("email").value;
    var Password = document.getElementById("password").value;
-   var RememberMe = document.getElementById("rememberMe").value;
 
-    var authObj = { Email, Password, RememberMe };
+    var authObj = { Email, Password };
 
     sendController(authObj, "/User/Login").then((response) => {
 
@@ -24,7 +23,7 @@ function logIn() {
             window.location = response.url;
         }
         else {
-            toastr.error('Failed to login');
+            toastr.error('Failed to login' + response.error);
             return false;
         }
     })

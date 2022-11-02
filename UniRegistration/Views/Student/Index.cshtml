@@ -7,22 +7,24 @@
     <link rel="stylesheet" href="~/Content/studentindex.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/controllerbridge.js"></script>
-    <script type="text/javascript" src="~/Scripts/studentindex.js"></script>
+    <script type="text/javascript" src="~/Scripts/ControllerBridge.js"></script>
+    <script type="text/javascript" src="~/Scripts/StudentIndex.js"></script>
+    <script type="text/javascript" src="~/Scripts/IsAdmin.js"></script>
+
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
 
 </head>
 <body>
-    <a style="float:right" href="/User/Logout">Logout</a>
+    <a  class="navItem" style="float:right" href="/User/Logout">Logout</a>
 
     <div class="page-wrapper">
         <div class="wrapper">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">You've successfully enrolled at SkillsForce University!</h2>
+                    <h2 class="title">Your enrollment application form has been submitted.</h2>
                     <h4 id="status"></h4>
-                    <h4>- Edit my enrollment information  </h4>
+                    <h4 id="update"> </h4>
 
                 </div>
             </div>

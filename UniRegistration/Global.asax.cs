@@ -14,7 +14,7 @@ namespace UniRegistration
         {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            UnityConfig.RegisterComponents();//added
+            UnityConfig.RegisterComponents();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }

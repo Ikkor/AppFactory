@@ -1,12 +1,14 @@
 ﻿<head>
     <link rel="stylesheet" href="~/Content/adminpage.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/controllerbridge.js"></script>
+    <script type="text/javascript" src="~/Scripts/ControllerBridge.js"></script>
 
-    <script type="text/javascript" src="~/Scripts/adminview.js"></script>
+    <script type="text/javascript" src="~/Scripts/AdminView.js"></script>
 </head>
 
 <body>
+    <a class="navItem" style="float:right" href="/Student/Register"> Enroll </a>
+    <a  class="navItem" style="float:right" href="/User/Logout"> Logout </a>
     <table class="studentlist">
         <thead>
             <tr>
@@ -14,53 +16,17 @@
                 <th>FirstName</th>
                 <th>LastName</th>
                 <th>GuardianName</th>
-                <th>Subject Taken</th>
                 <th>Total marks</th>
                 <th>Status</th>
+                <th>Action</th>
 
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Dom</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-
-            </tr>
-            <tr>
-                <td>Dom</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-            </tr>
-            <tr>
-                <td>Dom</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-            </tr>
-            <tr>
-                <td>Dom</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-                <td>6000</td>
-            </tr>
         </tbody>
     </table>
 </body>
+<button onclick="DownloadCSV()">Download as CSV</button>
 <script>
 
 </script>

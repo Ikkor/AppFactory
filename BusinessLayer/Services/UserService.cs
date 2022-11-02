@@ -54,21 +54,11 @@ namespace Services
             if (email == null) throw new Exception("Invalid credentials");
             if (Crypto.VerifyHashedPassword(found.Password, password))
             {
-/*                if (found.Role != Role.Admin) SetCookie(user,found.UserId);
-*/                return found;
+                return found;
             }
             return null;
         }
-        private void SetCookie(User user)
-        {
-            int timeout = user.RememberMe ? 300 : 1;
-            var ticket = new FormsAuthenticationTicket(user.UserId.ToString(), user.RememberMe, timeout);
-            string encrypted = FormsAuthentication.Encrypt(ticket);
-            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encrypted);
-            cookie.Expires = DateTime.Now.AddMinutes(timeout);
-            cookie.HttpOnly = true;
-            HttpContext.Current.Response.Cookies.Add(cookie);
-        }
+
     }
 }
 

@@ -16,7 +16,7 @@ namespace Models
     }
     public class Result
     {
-        public int Id { get; set; }
+        public int ResultId { get; set; }
         public int SubjectId { get; set; }  
         public int Marks { get; set; }
         public int StudentId { get; set; }
