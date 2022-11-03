@@ -10,7 +10,6 @@ namespace Repositories
 {
     public class SubjectRepository : ConnHelper, IRepository<Subject>
     {
-
         private string FetchAllSql = $"select {SqlHelper.GetColumnNames(typeof(Subject))} from Subject";
         public Subject Find(int id)
         {

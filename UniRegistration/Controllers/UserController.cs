@@ -74,7 +74,8 @@ namespace UniRegistration.Controllers
             try
             {
                 loggedUser = _service.Authenticate(user.Email, user.Password);
-            }catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return Json(new { url = url, error = e.Message });
             }

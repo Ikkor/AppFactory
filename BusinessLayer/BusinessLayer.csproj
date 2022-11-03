@@ -67,7 +67,7 @@
     <Compile Include="Services\UserService.cs" />
     <Compile Include="ViewModels\UserLoginViewModel.cs" />
     <Compile Include="ViewModels\StudentUpdateViewModel.cs" />
-    <Compile Include="ViewModels\StudentListViewModel.cs" />
+    <Compile Include="ViewModels\StudentDetailsViewModel.cs" />
     <Compile Include="ViewModels\UserRegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

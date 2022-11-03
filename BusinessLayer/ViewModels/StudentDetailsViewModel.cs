@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.ViewModels
+namespace ViewModels
 {
-    class StudentListViewModel
+   public class StudentDetailsViewModel
     {
         public int UserId { get; set; }
         public int StudentId { get; set; }
@@ -18,7 +18,14 @@ namespace BusinessLayer.ViewModels
         public string Email { get; set; }
         public string NationalIdentity { get; set; }
         public string Address { get; set; }
-        public string Status { get; set; }
+        public EnrollmentStatus EnrollmentStatus { get; set; }
+        public string EnrollmentStatusName
+        {
+            get
+            {
+                return Enum.GetName(typeof(EnrollmentStatus), this.EnrollmentStatus);
+            }
+        }
         public int TotalMarks
         {
             get

@@ -90,7 +90,7 @@ function register() {
 
         }
         else {
-            toastr.error("An error occured");
+            toastr.error("An error occured"+response.error);
             return false;
         }
     })

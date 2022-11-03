@@ -18,6 +18,8 @@ namespace Repositories
     }
     public class StudentRepository : ConnHelper, IStudentRepository
     {
+
+        private readonly int GetAllUsers = -1;
        public Student Find(string email)
         {
             Student student = new Student();
@@ -30,8 +32,8 @@ namespace Repositories
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        student.StudentId = (int)(byte)reader["StudentId"];
-                        student.UserId = (int)(byte)reader["UserId"];
+                        student.StudentId = (int)reader["StudentId"];
+                        student.UserId = (int)reader["UserId"];
                         student.GuardianName = (string)reader["GuardianName"];
                         student.Phone = (string)reader["Phone"];
                         student.NationalIdentity = (string)reader["NationalIdentity"];
@@ -168,7 +170,7 @@ namespace Repositories
 
                     while (reader.Read())
                     {
-                        return (int)(byte)reader["StudentId"];
+                        return (int)reader["StudentId"];
 
                     }
 
@@ -184,21 +186,21 @@ namespace Repositories
 
         public List<Student> FetchAll()
         {
-            return GetListOfStudents(StudentSql.fetchAllStudentsSql, -1);
+            return GetListOfStudents(StudentSql.fetchAllStudentsSql, GetAllUsers);
         }
 
 
 
-        public List<Student> GetListOfStudents(string query, int findByUserId)
+        public List<Student> GetListOfStudents(string query, int UserId)
         {
             List<Student> studentList = new List<Student>();
             using (SqlConnection conn = CreateConnection())
             {
                 using (SqlCommand cmd = CreateCommand(conn, query))
                 {
-                    if (findByUserId > -1)
+                    if (UserId != GetAllUsers)
                     {
-                     cmd.Parameters.AddWithValue("@UserId", findByUserId);
+                     cmd.Parameters.AddWithValue("@UserId", UserId);
                     }
 
                     SqlDataReader reader = cmd.ExecuteReader();
@@ -207,14 +209,15 @@ namespace Repositories
                         List<Result> resultList = new List<Result>();
                         Result result = new Result()
                         {
-                            StudentId = (int)(byte)reader["StudentId"],
+                            StudentId = (int)reader["StudentId"],
                             Marks = (int)reader["Marks"],
-                            ResultId = (int)(byte)reader["ResultId"]
+                            SubjectId = (int)(byte)reader["SubjectId"],
+                            ResultId = (int)reader["ResultId"]
 
                         };
                         resultList.Add(result);
 
-                        var foundStudent = studentList.FirstOrDefault(student => student.StudentId == (int)(byte)reader["StudentId"]);
+                        var foundStudent = studentList.FirstOrDefault(student => student.StudentId == (int)reader["StudentId"]);
 
                         if (foundStudent != null)
                         {
@@ -225,8 +228,8 @@ namespace Repositories
                             studentList.Add(new Student()
                             {
                                 Results = resultList,
-                                StudentId = (int)(byte)reader["StudentId"],
-                                UserId = (int)(byte)reader["UserId"],
+                                StudentId = (int)reader["StudentId"],
+                                UserId = (int)reader["UserId"],
                                 GuardianName = (string)reader["GuardianName"],
                                 Phone = (string)reader["Phone"],
                                 Email = (string)reader["Email"],

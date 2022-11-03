@@ -14,15 +14,10 @@ namespace Repositories
     public interface IUserRepository:IRepository<User>
     {
        User Find (string email);
-
-       
+      
     }
-
     public class UserRepository : ConnHelper, IUserRepository
     {
-
-      
-
         public User Find(string email) 
         {
             User userModel = new User();
@@ -34,7 +29,7 @@ namespace Repositories
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        userModel.UserId = (int)(byte)reader["UserId"];
+                        userModel.UserId = (int)reader["UserId"];
                         userModel.Email = (string)reader["Email"];
                         userModel.Password = (string)reader["Password"];
                         userModel.Role= (Role)(int)(byte)reader["RoleId"];
@@ -55,18 +50,14 @@ namespace Repositories
                     cmd.Parameters.AddWithValue("@Password", user.Password);
                     cmd.Parameters.AddWithValue("@RoleId", user.Role);
                     cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
-
-
                     int rowsAffected =  cmd.ExecuteReader().RecordsAffected;
                     conn.Close();
                     return rowsAffected;
                 }
                 
-
             }
             throw new Exception("Could not register user, please try again.");
         }
-
 
         public User Find(int userId)
         {
@@ -79,8 +70,6 @@ namespace Repositories
             throw new NotImplementedException();
 
         }
-
-
 
         public bool Update(User user)
         {

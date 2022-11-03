@@ -56,7 +56,7 @@ namespace Services
             {
                 return found;
             }
-            return null;
+            throw new Exception("Invalid credentials");
         }
 
     }
